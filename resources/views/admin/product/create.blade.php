@@ -2,6 +2,22 @@
 
 @section('content')
 
+<style>
+    #container {
+        width: 1000px;
+        margin: 20px auto;
+    }
+    .ck-editor__editable[role="textbox"] {
+        /* editing area */
+        min-height: 200px;
+    }
+    .ck-content .image {
+        /* block images */
+        max-width: 80%;
+        margin: 20px auto;
+    }
+</style>
+
     <div class="app-main__inner">
 
         <div class="app-page-title">
@@ -24,59 +40,48 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-body">
-                        <form method="post" enctype="multipart/form-data"></form>
+                        <form method="post" action="{{route('product.store')}}" enctype="multipart/form-data">
+                            @csrf
                             <div class="position-relative row form-group">
                                 <label for="brand_id"
                                     class="col-md-3 text-md-right col-form-label">Brand</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <select required name="brand_id" id="brand_id" class="form-control">
+                                    <select name="brand_id" id="brand_id" class="form-control">
                                         <option value="">-- Brand --</option>
-                                        <option value=0>
-                                            Calvin Klein
-                                        </option>
-                                        <option value=1>
-                                            Diesel
-                                        </option>
-                                        <option value=2>
-                                            Polo
-                                        </option>
+                                        @foreach ($brands as $brand)
+                                             <option {{ old('brand_id') == $brand->id ? "selected" : "" }} value="{{$brand->id}}">{{$brand->name}}</option>   
+                                        @endforeach
                                     </select>
+                                    @error('brand_id')
+                                        <p class="text-danger mb-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="position-relative row form-group">
-                                <label for="product_category_id"
+                                <label for="category_id"
                                     class="col-md-3 text-md-right col-form-label">Category</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <select required name="product_category_id" id="product_category_id" class="form-control">
+                                    <select name="category_id" id="category_id" class="form-control">
                                         <option value="">-- Category --</option>
-                                        <option value=0>
-                                            Men
-                                        </option>
-                                        <option value=1>
-                                            Women
-                                        </option>
-                                        <option value=2>
-                                            Kid
-                                        </option>
+                                        @foreach ($categories as $category)
+                                             <option {{ old('category_id') == $category->id ? "selected" : "" }} value="{{$category->id}}">{{$category->name}}</option>   
+                                        @endforeach
                                     </select>
+                                    @error('category_id')
+                                        <p class="text-danger mb-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         
                             <div class="position-relative row form-group">
                                 <label for="name" class="col-md-3 text-md-right col-form-label">Name</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <input required name="name" id="name" placeholder="Name" type="text"
-                                        class="form-control" value="">
-                                </div>
-                            </div>
-
-                            <div class="position-relative row form-group">
-                                <label for="content"
-                                    class="col-md-3 text-md-right col-form-label">Content</label>
-                                <div class="col-md-9 col-xl-8">
-                                    <input required name="content" id="content"
-                                        placeholder="Content" type="text" class="form-control" value="">
+                                    <input name="name" id="name" placeholder="Name" type="text"
+                                        class="form-control" value="{{old('name')}}">
+                                    @error('name')
+                                        <p class="text-danger mb-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -84,53 +89,74 @@
                                 <label for="price"
                                     class="col-md-3 text-md-right col-form-label">Price</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <input required name="price" id="price"
-                                        placeholder="Price" type="text" class="form-control" value="">
+                                    <input name="price" id="price"
+                                        placeholder="Price" type="number" class="form-control" value="{{old('price')}}">
+                                    @error('price')
+                                        <p class="text-danger mb-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="position-relative row form-group">
-                                <label for="discount"
-                                    class="col-md-3 text-md-right col-form-label">Discount</label>
+                                <label for="color"
+                                    class="col-md-3 text-md-right col-form-label">Color</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <input required name="discount" id="discount"
-                                        placeholder="Discount" type="text" class="form-control" value="">
+                                    <input name="color" id="color"
+                                        placeholder="Color" type="text" class="form-control" value="{{old('color')}}">
+                                    @error('color')
+                                        <p class="text-danger mb-0">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="position-relative row form-group">
-                                <label for="weight"
-                                    class="col-md-3 text-md-right col-form-label">Weight</label>
+                                <label for="sku"
+                                    class="col-md-3 text-md-right col-form-label">Product code</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <input required name="weight" id="weight"
-                                        placeholder="Weight" type="text" class="form-control" value="">
+                                    <input name="product_code" id="product_code"
+                                        placeholder="Product code" type="text" class="form-control" value="{{old('product_code')}}">
+                                    @error('product_code')
+                                        <p class="text-danger mb-0">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div id="input-container">
+                                <div class="position-relative row form-group">
+                                    <label for="size"
+                                        class="col-md-3 text-md-right col-form-label">Size</label>
+                                    <div class="col-md-2 col-xl-2">
+                                        <input name="sizes[]" id="size"
+                                            placeholder="Size" type="number" class="form-control">
+                                        @error('sizes.*')
+                                            <p class="text-danger mb-0">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <label for="sku"
+                                        class="col-md-3 text-md-right col-form-label">Quantity</label>
+                                    <div class="col-md-2 col-xl-2">
+                                        <input name="quantities[]" id="quantity"
+                                            placeholder="Quantity" type="number" class="form-control" >
+                                        @error('quantities.*')
+                                            <p class="text-danger mb-0">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div class="pl-2 d-flex align-items-center" onclick="addSection()">
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <div class="position-relative row form-group">
-                                <label for="sku"
-                                    class="col-md-3 text-md-right col-form-label">SKU</label>
-                                <div class="col-md-9 col-xl-8">
-                                    <input required name="sku" id="sku"
-                                        placeholder="SKU" type="text" class="form-control" value="">
-                                </div>
-                            </div>
-
-                            <div class="position-relative row form-group">
-                                <label for="tag"
-                                    class="col-md-3 text-md-right col-form-label">Tag</label>
-                                <div class="col-md-9 col-xl-8">
-                                    <input required name="tag" id="tag"
-                                        placeholder="Tag" type="text" class="form-control" value="">
-                                </div>
-                            </div>
-
                             <div class="position-relative row form-group">
                                 <label for="featured"
                                     class="col-md-3 text-md-right col-form-label">Featured</label>
                                 <div class="col-md-9 col-xl-8">
                                     <div class="position-relative form-check pt-sm-2">
-                                        <input name="featured" id="featured" type="checkbox" value="1" class="form-check-input">
+                                        <input {{ old('featured') == 1 ? 'checked' : '' }} name="featured" id="featured" type="checkbox" value="1" class="form-check-input">
                                         <label for="featured" class="form-check-label">Featured</label>
                                     </div>
                                 </div>
@@ -140,13 +166,26 @@
                                 <label for="description"
                                     class="col-md-3 text-md-right col-form-label">Description</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <textarea class="form-control" name="description" id="description" placeholder="Description"></textarea>
+                                    <textarea class="form-control" name="description" id="editor" >{{old('description')}}</textarea>
+                                    @error('description')
+                                        <p class="text-danger mb-0">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="position-relative row form-group">
+                                <label for="" class="col-md-3 text-md-right col-form-label">Images</label>
+                                <div class="col-md-9 col-xl-8">
+                                    <button class="btn border border-primary" type="button" id="addImageButton">
+                                        Add Image
+                                    </button>
+                                    
+                                    <div id="imageContainer"></div>
                                 </div>
                             </div>
 
                             <div class="position-relative row form-group mb-1">
                                 <div class="col-md-9 col-xl-8 offset-md-2">
-                                    <a href="#" class="border-0 btn btn-outline-danger mr-1">
+                                    <a href="{{route("product.index")}}" class="border-0 btn btn-outline-danger mr-1">
                                         <span class="btn-icon-wrapper pr-1 opacity-8">
                                             <i class="fa fa-times fa-w-20"></i>
                                         </span>
@@ -168,5 +207,14 @@
             </div>
         </div>
     </div>
+    
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
 
 @endsection

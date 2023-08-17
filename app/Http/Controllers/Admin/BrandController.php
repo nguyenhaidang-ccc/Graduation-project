@@ -45,11 +45,11 @@ class BrandController extends Controller
         try {
             Brand::create($data);
             DB::commit();
+            return redirect()->route('brand.index');
         } catch (Throwable $e) {
             DB::rollback();
             throw $e;
         }
-        return redirect()->route('brand.index');
 
     }
 
@@ -79,11 +79,11 @@ class BrandController extends Controller
         try {
             $brand->update($data);
             DB::commit();
+            return redirect()->route('brand.index');
         } catch (Throwable $e) {
             DB::rollback();
             throw $e;
         }
-        return redirect()->route('brand.index');
     }
 
     /**

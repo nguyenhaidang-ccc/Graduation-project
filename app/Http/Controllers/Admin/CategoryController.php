@@ -38,12 +38,12 @@ class CategoryController extends Controller
         try {
             Category::create($data);
             DB::commit();
+            return redirect()->route('category.index');
         } catch (Throwable $e) {
             DB::rollback();
             throw $e;
         }
-        return redirect()->route('category.index');
-
+        
     }
 
     /**
@@ -72,11 +72,11 @@ class CategoryController extends Controller
         try {
             $category->update($data);
             DB::commit();
+            return redirect()->route('category.index');
         } catch (Throwable $e) {
             DB::rollback();
             throw $e;
         }
-        return redirect()->route('category.index');
     }
 
     /**
