@@ -117,33 +117,33 @@
 
                             <li class="mm-active">
                                 <a href="#">
-                                    <i class="metismenu-icon pe-7s-plugin"></i>Ứng dụng
+                                    <i class="metismenu-icon pe-7s-plugin"></i>Applications
                                     <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                 </a>
                                 <ul>
                                     <li>
                                         <a href="./user.html">
-                                            <i class="metismenu-icon"></i>Khách hàng
+                                            <i class="metismenu-icon"></i>User
                                         </a>
                                     </li>
                                     <li>
                                         <a href="./order.html">
-                                            <i class="metismenu-icon"></i>Đơn hàng
+                                            <i class="metismenu-icon"></i>Order
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('product.index') }}" class="{{ request()->segment(2) == 'product' ? 'mm-active' : ''}}">
-                                            <i class="metismenu-icon"></i>Sản phẩm
+                                            <i class="metismenu-icon"></i>Product
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./category.html" class="{{ request()->segment(2) == 'category' ? 'mm-active' : ''}}">
-                                            <i class="metismenu-icon"></i>Danh mục
+                                        <a href="{{route('category.index')}}" class="{{ request()->segment(2) == 'category' ? 'mm-active' : ''}}">
+                                            <i class="metismenu-icon"></i>Category
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{route('brand.index')}}" class="{{ request()->segment(2) == 'brand' ? 'mm-active' : ''}}">
-                                            <i class="metismenu-icon"></i>Thương hiệu
+                                            <i class="metismenu-icon"></i>Brand
                                         </a>
                                     </li>
                                 </ul>

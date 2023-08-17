@@ -3,28 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
-use App\Http\Requests\StoreBrandRequest;
-use App\Http\Requests\UpdateBrandRequest;
+use App\Models\Category;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use Throwable;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
-class BrandController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $keyword = $request->input('search');
-
-        $brands = Brand::when($keyword, function($query, $keyword){
-                $query->where('name', 'like', '%'.$keyword.'%');
-            })
-            ->orderByDesc('id')
-            ->paginate(5);
-        return view('admin.brand.list', compact('brands'));
+        $categories = Category::orderByDesc('id')->get();
+        return view('admin.category.list', compact('categories'));
     }
 
     /**
@@ -32,31 +25,31 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('admin.brand.create');
+        return view('admin.category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBrandRequest $request)
+    public function store(StoreCategoryRequest $request)
     {
         $data = $request->validated();
         DB::beginTransaction();
         try {
-            Brand::create($data);
+            Category::create($data);
             DB::commit();
         } catch (Throwable $e) {
             DB::rollback();
             throw $e;
         }
-        return redirect()->route('brand.index');
+        return redirect()->route('category.index');
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Brand $brand)
+    public function show(Category $category)
     {
         //
     }
@@ -64,34 +57,34 @@ class BrandController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Brand $brand)
+    public function edit(Category $category)
     {
-        return view('admin.brand.edit', compact('brand'));
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBrandRequest $request, Brand $brand)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
         $data = $request->validated();
         DB::beginTransaction();
         try {
-            $brand->update($data);
+            $category->update($data);
             DB::commit();
         } catch (Throwable $e) {
             DB::rollback();
             throw $e;
         }
-        return redirect()->route('brand.index');
+        return redirect()->route('category.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brand $brand)
+    public function destroy(Category $category)
     {
-        $brand->delete();
+        $category->delete();
         return redirect()->back()->with('success', 'Delete successfully!');
     }
 }

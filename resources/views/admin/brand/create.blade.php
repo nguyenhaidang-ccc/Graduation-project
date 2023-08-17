@@ -10,9 +10,9 @@
                     <i class="pe-7s-ticket icon-gradient bg-mean-fruit"></i>
                 </div>
                 <div>
-                    Thương hiệu
+                    Brand
                     <div class="page-title-subheading">
-                        Xem, tạo, cập nhật, xóa và quản lý
+                        View, create, update, delete and manage
                     </div>
                 </div>
             </div>
@@ -26,9 +26,9 @@
                     <form method="post" action="{{route('brand.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="position-relative row form-group">
-                            <label for="name" class="col-md-3 text-md-right col-form-label">Tên</label>
+                            <label for="name" class="col-md-3 text-md-right col-form-label">Name</label>
                             <div class="col-md-9 col-xl-8">
-                                <input name="name" id="name" placeholder="Tên thương hiệu" type="text"
+                                <input name="name" id="name" placeholder="name" type="text"
                                     class="form-control" value="">
                                 @error('name')
                                     <p class="text-danger">{{ $message }}</p>
@@ -43,7 +43,7 @@
                                     <span class="btn-icon-wrapper pr-1 opacity-8">
                                         <i class="fa fa-times fa-w-20"></i>
                                     </span>
-                                    <span>Quay lại</span>
+                                    <span>Cancel</span>
                                 </a>
 
                                 <button type="submit"
@@ -51,7 +51,7 @@
                                     <span class="btn-icon-wrapper pr-2 opacity-8">
                                         <i class="fa fa-download fa-w-20"></i>
                                     </span>
-                                    <span>Lưu</span>
+                                    <span>Save</span>
                                 </button>
                             </div>
                         </div>
