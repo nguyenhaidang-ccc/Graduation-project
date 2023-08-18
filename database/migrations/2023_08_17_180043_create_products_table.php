@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('price');
             $table->string('color');
             $table->string('product_code');
-            $table->tinyInteger('featured')->nullable();
+            $table->tinyInteger('featured')->default(0);
             $table->longText('description');
             $table->timestamps();
         });

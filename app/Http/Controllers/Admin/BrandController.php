@@ -8,22 +8,16 @@ use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
 use Throwable;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $keyword = $request->input('search');
 
-        $brands = Brand::when($keyword, function($query, $keyword){
-                $query->where('name', 'like', '%'.$keyword.'%');
-            })
-            ->orderByDesc('id')
-            ->paginate(5);
+        $brands = Brand::orderByDesc('id')->paginate(5);
         return view('admin.brand.list', compact('brands'));
     }
 

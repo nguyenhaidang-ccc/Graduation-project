@@ -11,15 +11,23 @@ use App\Models\Brand;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return view('admin.product.list');
+    public function index(Request $request)
+    {   
+        $keyword = $request->input('search');
+
+        $products = Product::when($keyword, function($query, $keyword){
+                $query->where('name', 'like', '%'.$keyword.'%');
+            })
+            ->orderByDesc('id')
+            ->paginate(5);
+        return view('admin.product.list', compact('products'));
     }
 
     /**

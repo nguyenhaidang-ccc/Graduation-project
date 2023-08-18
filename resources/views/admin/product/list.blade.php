@@ -34,7 +34,8 @@
 
                     <div class="card-header">
 
-                        <form>
+                        <form method="post" action="{{route('product.search')}}">
+                            @csrf
                             <div class="input-group">
                                 <input type="search" name="search" id="search"
                                     placeholder="Search everything" class="form-control">
@@ -62,60 +63,66 @@
                             </thead>
 
                             <tbody>
-
-                                <tr>
-                                    <td class="text-center text-muted">#01</td>
-                                    <td>
-                                        <div class="widget-content p-0">
-                                            <div class="widget-content-wrapper">
-                                                <div class="widget-content-left mr-3">
-                                                    <div class="widget-content-left">
-                                                        <img style="height: 60px;"
-                                                            data-toggle="tooltip" title="Image"
-                                                            data-placement="bottom"
-                                                            src="./assets/admin/images/_default-product.jpg" alt="">
+                                @foreach ($products as $product )
+                                    <tr>
+                                        <td class="text-center text-muted">#{{$product->id}}</td>
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    <div class="widget-content-left mr-3">
+                                                        <div class="widget-content-left">
+                                                            <img style="height: 60px;"
+                                                                data-toggle="tooltip" title="Image"
+                                                                data-placement="bottom"
+                                                                src="/storage/{{$product->images->first()->image}} " alt="">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="widget-content-left flex2">
-                                                    <div class="widget-heading">Pure Pineapple</div>
-                                                    <div class="widget-subheading opacity-7">
-                                                        Calvin Klein
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading">{{$product->name}}</div>
+                                                        <div class="widget-subheading opacity-7">
+                                                            {{$product->brand->name}}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">$599.00</td>
-                                    <td class="text-center">25</td>
-                                    <td class="text-center">
-                                        <div class="badge badge-success mt-2">
-                                            True
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="./product-show.html"
-                                            class="btn btn-hover-shine btn-outline-primary border-0 btn-sm">
-                                            Details
-                                        </a>
-                                        <a href="./product-edit.html" data-toggle="tooltip" title="Edit"
-                                            data-placement="bottom" class="btn btn-outline-warning border-0 btn-sm">
-                                            <span class="btn-icon-wrapper opacity-8">
-                                                <i class="fa fa-edit fa-w-20"></i>
-                                            </span>
-                                        </a>
-                                        <form class="d-inline" action="" method="post">
-                                            <button class="btn btn-hover-shine btn-outline-danger border-0 btn-sm"
-                                                type="submit" data-toggle="tooltip" title="Delete"
-                                                data-placement="bottom"
-                                                onclick="return confirm('Do you really want to delete this item?')">
+                                        </td>
+                                        <td class="text-center">{{number_format($product->price)}} VNĐ</td>
+                                        <td class="text-center">25</td>
+                                        <td class="text-center">
+                                            @if ($product->featured === 1)
+                                                <div class="badge badge-success mt-2">
+                                                    True
+                                                </div>
+                                            @else
+                                                <div class="badge badge-danger mt-2">
+                                                    False
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="./product-show.html"
+                                                class="btn btn-hover-shine btn-outline-primary border-0 btn-sm">
+                                                Details
+                                            </a>
+                                            <a href="./product-edit.html" data-toggle="tooltip" title="Edit"
+                                                data-placement="bottom" class="btn btn-outline-warning border-0 btn-sm">
                                                 <span class="btn-icon-wrapper opacity-8">
-                                                    <i class="fa fa-trash fa-w-20"></i>
+                                                    <i class="fa fa-edit fa-w-20"></i>
                                                 </span>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-
+                                            </a>
+                                            <form class="d-inline" action="" method="post">
+                                                <button class="btn btn-hover-shine btn-outline-danger border-0 btn-sm"
+                                                    type="submit" data-toggle="tooltip" title="Delete"
+                                                    data-placement="bottom"
+                                                    onclick="return confirm('Do you really want to delete this item?')">
+                                                    <span class="btn-icon-wrapper opacity-8">
+                                                        <i class="fa fa-trash fa-w-20"></i>
+                                                    </span>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>                       
+                                @endforeach
                                 
                             </tbody>
                         </table>
@@ -140,50 +147,16 @@
                                 <div>
                                     <p class="text-sm text-gray-700 leading-5">
                                         Showing
-                                        <span class="font-medium">1</span>
+                                        <span class="font-medium">{{ $products->firstItem() }}</span>
                                         to
-                                        <span class="font-medium">5</span>
+                                        <span class="font-medium">{{ $products->count()}}</span>
                                         of
-                                        <span class="font-medium">9</span>
+                                        <span class="font-medium">{{$products->total()}}</span>
                                         results
                                     </p>
                                 </div>
-
                                 <div>
-                                    <span class="relative z-0 inline-flex shadow-sm rounded-md">
-                                        <span aria-disabled="true" aria-label="&amp;laquo; Previous">
-                                            <span
-                                                class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5"
-                                                aria-hidden="true">
-                                                <svg class="w-5 h-5" fill="currentColor"
-                                                    viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd"
-                                                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                            </span>
-                                        </span>
-
-                                        <span aria-current="page">
-                                            <span
-                                                class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5">1</span>
-                                        </span>
-                                        <a href="#page=2"
-                                            class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
-                                            aria-label="Go to page 2">
-                                            2
-                                        </a>
-
-                                        <a href="#page=2" rel="next"
-                                            class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
-                                            aria-label="Next &amp;raquo;">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                    </span>
+                                    {{ $products->links() }}
                                 </div>
                             </div>
                         </nav>
