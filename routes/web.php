@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 
+use App\Http\Controllers\Frontend\ShopController;
+use App\Http\Controllers\Frontend\CartController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,10 +18,6 @@ use App\Http\Controllers\Admin\CategoryController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 //Admin Router
 
@@ -47,5 +46,17 @@ Route::prefix('admin')->group(function () {
     Route::post('/product/create', [ProductController::class, 'store'])->name('product.store');
     Route::get('/product/edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
     Route::post('/product/edit/{product}', [ProductController::class, 'update'])->name('product.update');
+    Route::get('/product/show/{product}', [ProductController::class, 'show'])->name('product.show');
     Route::delete('/product/delete/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
 });
+
+//Frontend router
+Route::get('/', [ShopController::class, 'index'])->name('home');
+Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
+Route::get('/category/{id}', [ShopController::class, 'getProductByCategory'])->name('category');
+Route::get('/product/{product}', [ShopController::class, 'product'])->name('product');
+Route::get('/get-quantity', [ShopController::class, 'getQuantity']);
+
+Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::delete('/cart/delete/{product}/{size}', [CartController::class, 'delete'])->name('cart.delete');

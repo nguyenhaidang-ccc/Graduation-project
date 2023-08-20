@@ -61,7 +61,7 @@ class ProductController extends Controller
             $this->createProductItem($product,$productItems);
             $this->createProductImage($product,$arrimages);
             DB::commit();
-            return redirect()->route('product.index');
+            return redirect()->route('product.show', $product->id);
         } catch (\Throwable $e) {
             DB::rollback();
             throw $e;
@@ -72,11 +72,16 @@ class ProductController extends Controller
         DB::beginTransaction();
         try {
             foreach($productItems as $item){
-                $productItem = new ProductItem();
-                $productItem->product_id = $product->id;
-                $productItem->size = $item['size'];
-                $productItem->quantity = $item['quantity'];
-                $productItem->save();
+                ProductItem::updateOrCreate(
+                    [
+                        'product_id' => $product->id,
+                        'size' => $item['size']
+                    ],
+                    [
+                        'quantity' => $item['quantity']
+                    ]
+                );
+                
             }
             DB::commit();
         } catch (\Throwable $e) {
@@ -88,11 +93,35 @@ class ProductController extends Controller
     protected function createProductImage($product, $arrimages){
         DB::beginTransaction();
         try {
-            foreach($arrimages as $image){
+            foreach($arrimages as $index => $image){
                 $productImage = new ProductImage();
                 $productImage->product_id = $product->id;
                 $productImage->image = $this->saveImage($image);
                 $productImage->save();
+            }
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+    }
+
+    protected function updateProductImage($product, $arrimages){
+        DB::beginTransaction();
+        try {
+            foreach($arrimages as $index => $image){
+                $productImage = null;
+                $productImage = ProductImage::find($index);
+                if($productImage){
+                    $productImage->image = $this->saveImage($image);
+                    $productImage->save();
+                }
+                else{
+                    $productImage = new ProductImage();
+                    $productImage->product_id = $product->id;
+                    $productImage->image = $this->saveImage($image);
+                    $productImage->save();
+                }
             }
             DB::commit();
         } catch (\Throwable $e) {
@@ -110,12 +139,13 @@ class ProductController extends Controller
         return $path;
 
     }
+
     /**
      * Display the specified resource.
      */
     public function show(Product $product)
     {
-        //
+        return view('admin.product.show', compact('product'));
     }
 
     /**
@@ -123,7 +153,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        $brands = Brand::all();
+        $product = Product::with(['productItems' => function ($query) {
+            $query->where('quantity', '>', 0);
+        }])->find($product->id);
+        return view('admin.product.edit', compact('product','categories','brands'));
     }
 
     /**
@@ -131,7 +166,27 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $data = $request->validated();
+        $sizes = $data['sizes'];
+        $quantities = $data['quantities'];
+        $arrimages = $data['images'] ?? [];
+        $productItems = array_map(function($size, $quantity) {
+            return ['size' => $size, 'quantity' => $quantity];
+        }, $sizes, $quantities);
+        DB::beginTransaction();
+        try {
+            unset($data['sizes']);
+            unset($data['quantities']);
+            unset($data['images']);
+            $product->update($data);
+            $this->createProductItem($product,$productItems);
+            $this->updateProductImage($product,$arrimages);
+            DB::commit();
+            return redirect()->route('product.show', $product->id);
+        } catch (\Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
     /**
@@ -139,6 +194,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->back()->with('success', 'Delete successfully!');
     }
 }

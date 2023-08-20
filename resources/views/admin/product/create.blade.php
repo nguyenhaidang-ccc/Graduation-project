@@ -2,7 +2,7 @@
 
 @section('content')
 
-<style>
+    <style>
     #container {
         width: 1000px;
         margin: 20px auto;
@@ -16,7 +16,7 @@
         max-width: 80%;
         margin: 20px auto;
     }
-</style>
+    </style>
 
     <div class="app-main__inner">
 
@@ -90,7 +90,7 @@
                                     class="col-md-3 text-md-right col-form-label">Price</label>
                                 <div class="col-md-9 col-xl-8">
                                     <input name="price" id="price"
-                                        placeholder="Price" type="number" class="form-control" value="{{old('price')}}">
+                                        placeholder="Price" type="text" class="form-control" value="{{old('price')}}">
                                     @error('price')
                                         <p class="text-danger mb-0">{{ $message }}</p>
                                     @enderror
@@ -208,7 +208,7 @@
         </div>
     </div>
     
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="/assets/admin/js/ckeditor.js"></script>
     <script>
         ClassicEditor
             .create( document.querySelector( '#editor' ) )

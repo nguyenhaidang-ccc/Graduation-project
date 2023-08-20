@@ -11,7 +11,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -20,9 +20,33 @@ class UpdateProductRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules(): array
-    {
+    { 
         return [
-            //
+            'brand_id' => 'required',
+            'category_id' => 'required',
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'color' => 'required|string',
+            'product_code' => 'required|string',
+            'featured' => 'nullable|numeric',
+            'description' =>'required|string',
+            'sizes' => 'array|required',
+            'sizes.*' => 'required|numeric',
+            'quantities' => 'array|required',
+            'quantities.*' => 'required|numeric',
+            'images' => 'nullable',
+            'images.*' => 'mimes:jpg,bmp,png'
+
+        ];
+    }
+
+    public function messages(): array
+    { 
+        return [
+            'sizes.*.required' => 'The size field is required.',
+            'quantities.*.required' => 'The quantity field is required.',
+            'images.*.required' => 'The image field is required.'
+
         ];
     }
 }

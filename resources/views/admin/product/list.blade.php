@@ -28,6 +28,11 @@
             </div>
         </div>
 
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
@@ -74,7 +79,7 @@
                                                             <img style="height: 60px;"
                                                                 data-toggle="tooltip" title="Image"
                                                                 data-placement="bottom"
-                                                                src="/storage/{{$product->images->first()->image}} " alt="">
+                                                                src="{{$product->images->first()->image}}" alt="">
                                                         </div>
                                                     </div>
                                                     <div class="widget-content-left flex2">
@@ -86,8 +91,8 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="text-center">{{number_format($product->price)}} VNĐ</td>
-                                        <td class="text-center">25</td>
+                                        <td class="text-center">{{number_format($product->price)}}đ</td>
+                                        <td class="text-center">{{$product->productItems->sum('quantity')}}</td>
                                         <td class="text-center">
                                             @if ($product->featured === 1)
                                                 <div class="badge badge-success mt-2">
@@ -100,17 +105,19 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <a href="./product-show.html"
+                                            <a href="{{route('product.show', $product)}}"
                                                 class="btn btn-hover-shine btn-outline-primary border-0 btn-sm">
                                                 Details
                                             </a>
-                                            <a href="./product-edit.html" data-toggle="tooltip" title="Edit"
+                                            <a href="{{route('product.edit', $product)}}" data-toggle="tooltip" title="Edit"
                                                 data-placement="bottom" class="btn btn-outline-warning border-0 btn-sm">
                                                 <span class="btn-icon-wrapper opacity-8">
                                                     <i class="fa fa-edit fa-w-20"></i>
                                                 </span>
                                             </a>
-                                            <form class="d-inline" action="" method="post">
+                                            <form class="d-inline" action="{{route('product.destroy', $product)}}" method="post">
+                                                @method('DELETE')
+                                                @csrf
                                                 <button class="btn btn-hover-shine btn-outline-danger border-0 btn-sm"
                                                     type="submit" data-toggle="tooltip" title="Delete"
                                                     data-placement="bottom"

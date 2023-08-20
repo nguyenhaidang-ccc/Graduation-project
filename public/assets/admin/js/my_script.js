@@ -1,17 +1,12 @@
-// = = = = = = = = = = = = = = = = changeImg = = = = = = = = = = = = = = = =
-// function changeImg(input) {
-//     //Nếu như tồn thuộc tính file, đồng nghĩa người dùng đã chọn file mới
-//     if (input.files && input.files[0]) {
-//         var reader = new FileReader();
-//         //Sự kiện file đã được load vào website
-//         reader.onload = function (e) {
-//             //Thay đổi đường dẫn ảnh
-//             $(input).siblings('.thumbnail').attr('src', e.target.result);
-//         }
-//         reader.readAsDataURL(input.files[0]);
-//     }
-// }
 //Khi click #thumbnail thì cũng gọi sự kiện click #image
+
+// Ajax setup
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 $(document).ready(function () {
     $('.thumbnail').click(function () {
         $(this).siblings('.image').click();
@@ -27,7 +22,8 @@ $(document).ready(function () {
 
         var previewImage = $("<img>", {
             class: "preview-image",
-            width: 100
+            width: 100,
+            src: ''
         });
 
         var imageDiv = $("<div>", {
@@ -48,16 +44,21 @@ $(document).ready(function () {
             }
         });
     });
+
+
+
 });
 
-function readURL(input, previewImage) {
-    if (input.files && input.files[0]) {
+function previewImg(input, id) {
+    var file = input.files[0];
+    if (file) {
         var reader = new FileReader();
         reader.onload = function(e) {
-            previewImage.attr("src", e.target.result);
+            $(".preview-image-" + id).attr("src", e.target.result);
         };
-        reader.readAsDataURL(input.files[0]);
+        reader.readAsDataURL(file);
     }
+    
 }
 
 
