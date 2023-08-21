@@ -64,9 +64,16 @@
                     <div class="header-btn-lg pr-0">
                         <div class="widget-content p-0">
                             <div class="widget-content-wrapper">
-                                <div class="widget-content-left  ml-3 header-user-info">
-                                    <div class="widget-heading"> Alina Mclourd </div>
-                                    <div class="widget-subheading"> VP People Manager </div>
+                                <div class="widget-content-left ml-3 header-user-info">
+                                    <div class="widget-heading">{{Auth::guard('admin')->user()->name}}</div>
+                                    <div class="widget-subheading">
+                                        <form action="{{route('admin.logout')}}" method="post">
+                                            @csrf
+                                            <button type="submit">
+                                                Log out
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                                 
                             </div>
@@ -122,7 +129,7 @@
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="./user.html">
+                                        <a href="{{ route('user.index') }}" class="{{ request()->segment(2) == 'user' ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>User
                                         </a>
                                     </li>

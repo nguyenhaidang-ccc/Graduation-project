@@ -29,6 +29,9 @@
                     <form id="login-form" class="form" action="{{route('loginPost')}}" method="post">
                         @csrf
                         <h3 class="text-center text-primary">Login</h3>
+                        @error('status')
+                            <p class="text-danger">{{$message}}</p>
+                        @enderror
                         <div class="form-group">
                             <label for="email" class="text-dark">Email:</label><br>
                             <input type="text" name="email" id="email" class="form-control">

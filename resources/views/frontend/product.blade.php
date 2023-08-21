@@ -63,7 +63,7 @@
                         <small class="pt-1">(50 Reviews)</small>
                     </div>
                     <h3 class="font-weight-bold mb-4 text-danger">{{number_format($product->price)}}đ</h3>
-                    <p class="mb-3">Product code: {{($product->product_code)}}đ</p>
+                    <p class="mb-3">Product code: {{($product->product_code)}}</p>
                     <p class="mb-3">Products in stock: {{($product->productItems->sum('quantity'))}}</p>
                     @if($product->productItems->sum('quantity') > 0)
                         <div class="d-flex mb-4" >

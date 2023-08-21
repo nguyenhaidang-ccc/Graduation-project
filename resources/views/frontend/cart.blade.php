@@ -44,35 +44,40 @@
                                @foreach ($carts as $cart)
                                <tr>
                                     <td class="align-middle"><img src="{{$cart['image']}}" style="width: 55px; padding-right:5px">
-                                        <a href="{{route('product', $cart['product_id'])}}">{{$cart['name']}}</a>
+                                        <a href="{{route('product', $cart['product_id'])}}">{{$cart['name']}} - {{$cart['color']}}</a>
                                     </td>
                                     <td class="align-middle">{{number_format($cart['price'])}}đ</td>
                                     <td class="align-middle">{{$cart['size']}}</td>
                                     <td class="align-middle">
                                         <div class="input-group quantity mx-auto" style="width: 100px;">
                                             <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary btn-minus" >
-                                                <i class="fa fa-minus"></i>
-                                                </button>
+                                                <form action="{{route('cart.decrease', [$cart['product_id'], $cart['size']])}}" method="GET">
+                                                    <button type="submit" class="btn btn-sm btn-primary btn-minus" >
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </form>
                                             </div>
-                                            <input type="number" class="form-control form-control-sm bg-secondary text-center" value="{{$cart['quantity']}}">
+                                            <input disabled readonly type="number" class="form-control form-control-sm bg-secondary text-center" value="{{$cart['quantity']}}">
                                             <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary btn-plus">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
+                                                <form method="GET" action="{{route('cart.increase',[ $cart['product_id'], $cart['size'] ])}}">
+                                                    <button type="submit" class="btn btn-sm btn-primary btn-plus">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </form>    
                                             </div>
                                         </div>
                                     </td>
                                     <td class="align-middle">{{number_format($cart['quantity'] * $cart['price'])}}đ</td>
-                                    <form method="POST" action="{{route('cart.delete', [$cart['product_id'], $cart['size']])}}">
-                                        @method('DELETE')
-                                        @csrf
-                                        <td class="align-middle">
+                                    
+                                    <td class="align-middle">
+                                        <form method="POST" action="{{route('cart.delete', [$cart['product_id'], $cart['size']])}}">
+                                            @method('DELETE')
+                                            @csrf
                                             <button type="submit" class="btn btn-sm btn-primary">
                                                 <i class="fa fa-times"></i>
                                             </button>
-                                        </td>
-                                    </form>
+                                        </form>
+                                    </td>
                                 </tr> 
                                @endforeach
                         @endforeach
@@ -101,7 +106,7 @@
                             <h5 class="font-weight-bold">Total</h5>
                             <h5 class="font-weight-bold">{{number_format(session('total_price'))}}đ</h5>
                         </div>
-                        <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
+                        <a href="{{route('checkout')}}" class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</a>
                     </div>
                 </div>
             </div>

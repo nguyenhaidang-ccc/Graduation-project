@@ -25,9 +25,9 @@
                         @csrf
                         <h3 class="text-center text-primary">Register</h3>
                         <div class="form-group">
-                            <label for="name" class="text-dark">Name:</label><br>
-                            <input type="text" name="name" id="name" class="form-control">
-                            @error('name')
+                            <label for="username" class="text-dark">Username:</label><br>
+                            <input type="text" name="username" id="username" class="form-control">
+                            @error('username')
                                 <p class="text-danger">{{$message}}</p>
                             @enderror
                         </div>

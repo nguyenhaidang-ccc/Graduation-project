@@ -31,6 +31,7 @@ class CartController extends Controller
                 'product_id' => $product->id,
                 'image' => $product->images->first()->image,
                 'name' => $product->name,
+                'color' => $product->color,
                 'quantity' => $quantity,
                 'size' => $validated['size'],
                 'price'=> $product->price,
@@ -39,6 +40,32 @@ class CartController extends Controller
         session()->put('cart', $cart);
         $this->totalPrice();
         return redirect()->back()->with('success', 'Product added to cart successfully.');
+    }
+
+    public function increase($product_id, $size){ 
+        $cart = session('cart', []);
+        if(isset($cart[$product_id][$size])){
+            $cart[$product_id][$size]['quantity'] += 1;
+        };
+        session()->put('cart', $cart);
+        $this->totalPrice();
+
+        return redirect()->back()->with('success', 'Update cart successfully.');
+    }
+
+    public function decrease($product_id, $size){ 
+        $cart = session('cart', []);
+        if(isset($cart[$product_id][$size])){
+            $cart[$product_id][$size]['quantity'] -= 1;
+        };
+        session()->put('cart', $cart);
+        $this->totalPrice();
+
+        return redirect()->back()->with('success', 'Update cart successfully.');
+    }
+
+    public function giam($product_id, $size){
+        return 'OK';
     }
 
     public function delete($product_id, $size){

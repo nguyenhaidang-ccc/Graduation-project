@@ -14,20 +14,24 @@ class AuthUserController extends Controller
     }
 
     public function loginPost(Request $request){
-        $credentials = $request->validate([
-            'email' => 'required|email',
+        $request->validate([
+            'email' => 'required', 'email',
             'password' => 'required',
         ]);
 
-        if (Auth::guard('web')->attempt($credentials)) {
+        if (Auth::guard('web')->attempt([
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'status' => 1
+        ])){
             $request->session()->regenerate();
  
             return redirect()->intended('/');
         }
  
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+            'status' => 'The provided credentials do not match or your account has been locked.',
+        ]);
     }
 
     public function register(){
@@ -36,8 +40,8 @@ class AuthUserController extends Controller
 
     public function registerPost(Request $request){
         $validated = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
+            'username' => 'required|string|unique:users,username',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => 'required:6',
         ]);
