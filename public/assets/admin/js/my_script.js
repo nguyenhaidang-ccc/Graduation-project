@@ -17,7 +17,7 @@ $(document).ready(function () {
             type: "file",
             class: "image-input",
             name: "images[]",
-            accept: "image/png, image/gif, image/jpeg"
+            accept: "image/png, image/gif, image/jpeg, image/webp"
         });
 
         var previewImage = $("<img>", {

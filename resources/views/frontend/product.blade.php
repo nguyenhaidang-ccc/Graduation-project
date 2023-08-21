@@ -18,6 +18,11 @@
 
     <!-- Shop Detail Start -->
     <div class="container-fluid py-5">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="row px-xl-5">
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
@@ -45,7 +50,7 @@
             <div class="col-lg-7 pb-5">
                 <form action="{{route('cart.add', $product)}}" method="post">
                     @csrf
-                    <h3 class="font-weight-semi-bold">{{$product->name}}</h3>
+                    <h3 class="font-weight-semi-bold">{{$product->name}} - {{$product->color}}</h3>
                     <p class="font-weight-semi-bold">{{$product->category->name}}</p>
                     <div class="d-flex mb-3">
                         <div class="text-primary mr-2">

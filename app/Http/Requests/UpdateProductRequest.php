@@ -35,7 +35,7 @@ class UpdateProductRequest extends FormRequest
             'quantities' => 'array|required',
             'quantities.*' => 'required|numeric',
             'images' => 'nullable',
-            'images.*' => 'mimes:jpg,bmp,png'
+            'images.*' => 'mimes:jpg,bmp,png,webp'
 
         ];
     }

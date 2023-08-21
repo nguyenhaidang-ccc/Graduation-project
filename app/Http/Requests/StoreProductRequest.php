@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\UniqueColor;
 
 class StoreProductRequest extends FormRequest
 {
@@ -24,9 +25,9 @@ class StoreProductRequest extends FormRequest
         return [
             'brand_id' => 'required',
             'category_id' => 'required',
-            'name' => 'required|string|unique:products,name',
+            'name' => 'required|string',
             'price' => 'required|numeric',
-            'color' => 'required|string',
+            'color' => ['required','string', new UniqueColor],
             'product_code' => 'required|string',
             'featured' => 'nullable|numeric',
             'description' =>'required|string',
@@ -35,7 +36,7 @@ class StoreProductRequest extends FormRequest
             'quantities' => 'array|required',
             'quantities.*' => 'required|numeric',
             'images' => 'array|required',
-            'images.*' => 'required|mimes:jpg,bmp,png'
+            'images.*' => 'required|mimes:jpg,bmp,png,webp'
 
         ];
     }

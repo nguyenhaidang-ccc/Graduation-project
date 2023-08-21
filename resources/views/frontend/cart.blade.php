@@ -18,7 +18,13 @@
     <!-- Cart Start -->
     
     <div class="container-fluid pt-5">
-        @if(session('cart'))
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(!empty(session('cart')))
         <div class="row px-xl-5">
             <div class="col-lg-8 table-responsive mb-5">
                 <table class="table table-bordered text-center mb-0">

@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\CategoryController;
 
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\CartController;
-
+use App\Http\Controllers\Frontend\AuthUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,3 +60,9 @@ Route::get('/get-quantity', [ShopController::class, 'getQuantity']);
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 Route::delete('/cart/delete/{product}/{size}', [CartController::class, 'delete'])->name('cart.delete');
+
+Route::get('/login', [AuthUserController::class, 'login'])->name('login');
+Route::post('/login', [AuthUserController::class, 'loginPost'])->name('loginPost');
+Route::get('/register', [AuthUserController::class, 'register'])->name('register');
+Route::post('/register', [AuthUserController::class, 'registerPost'])->name('registerPost');
+Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');

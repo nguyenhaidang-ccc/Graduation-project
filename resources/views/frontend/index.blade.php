@@ -159,7 +159,7 @@
                         <img class="img-fluid w-100" src="{{$product->images->first()->image}}" alt="">
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                        <h6 class="text-truncate mb-3">{{$product->name}}</h6>
+                        <h6 class="text-truncate mb-3">{{$product->name}} - {{$product->color}}</h6>
                         <div class="d-flex justify-content-center">
                             <h6 class="text-danger font-weight-bold">{{number_format($product->price)}}đ</h6>
                         </div>

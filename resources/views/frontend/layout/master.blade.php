@@ -133,10 +133,22 @@
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
-                        <div class="navbar-nav ml-auto py-0">
-                            <a href="" class="nav-item nav-link">Login</a>
-                            <a href="" class="nav-item nav-link">Register</a>
-                        </div>
+                        @if(Auth::guard('web')->check())
+                            <div class="d-flex align-items-center">
+                                <img class="border rounded-circle" style="height: 40px" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="avatar">
+                                <div class="text-dark ml-2">{{Auth::guard('web')->user()->name}}
+                                    <form action="">
+                                        <button>Log out</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        @else
+                            <div class="navbar-nav ml-auto py-0">
+                                <a href="{{route('login')}}" class="nav-item nav-link">Login</a>
+                                <a href="{{route('register')}}" class="nav-item nav-link">Register</a>
+                            </div>
+                        @endif
                     </div>
                 </nav>
             </div>

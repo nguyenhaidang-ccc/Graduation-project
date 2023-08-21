@@ -60,6 +60,7 @@
                                 <tr>
                                     <th class="text-center">ID</th>
                                     <th>Name / Brand</th>
+                                    <th class="text-center">Color</th>
                                     <th class="text-center">Price</th>
                                     <th class="text-center">Qty</th>
                                     <th class="text-center">Featured</th>
@@ -91,6 +92,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        <td class="text-center">{{$product->color}}</td>
                                         <td class="text-center">{{number_format($product->price)}}đ</td>
                                         <td class="text-center">{{$product->productItems->sum('quantity')}}</td>
                                         <td class="text-center">

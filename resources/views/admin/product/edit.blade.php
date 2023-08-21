@@ -210,7 +210,8 @@
                                     <div id="imageContainer">
                                         @foreach($product->images as $item)
                                             <div class="image-container mt-2">
-                                                <input onchange="previewImg(this, {{$item->id}})" type="file" class="image-input" name="images[{{$item->id}}]" accept="image/png, image/gif, image/jpeg">
+                                                <input onchange="previewImg(this, {{$item->id}})" type="file" class="image-input" name="images[{{$item->id}}]"
+                                                 accept="image/png, image/gif, image/jpeg, image/webp">
                                                 <img class="preview-image-{{$item->id}}" style="width: 100px" src="{{$item->image}}">
                                             </div>
                                         @endforeach

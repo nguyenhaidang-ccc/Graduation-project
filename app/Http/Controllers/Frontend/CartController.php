@@ -38,14 +38,19 @@ class CartController extends Controller
         }
         session()->put('cart', $cart);
         $this->totalPrice();
-        return redirect()->back()->with('success', 'Thêm sản phẩm vào giỏ hàng thành công!');
+        return redirect()->back()->with('success', 'Product added to cart successfully.');
     }
 
     public function delete($product_id, $size){
-        // return ('cart.'.$product_id .'.' .$size);
-        session()->pull('cart.'.$product_id.'.'.$size );
+        $cart = session('cart');
+        unset($cart[$product_id][$size]);
+        if(empty($cart[$product_id])){
+            unset($cart[$product_id]);
+        }
+        session()->put('cart', $cart);
+
         $this->totalPrice();
-        return back()->with('success', 'Xóa sản phẩm khỏi giỏ hành thành công!');
+        return back()->with('success', 'Product removed from cart successfully.');
     }
 
     protected function totalPrice(){
@@ -57,4 +62,6 @@ class CartController extends Controller
         }
         session()->put('total_price', $total_price);
     }
+
+    
 }
