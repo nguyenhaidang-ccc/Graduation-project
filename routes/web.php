@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\OrderController;
 
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\CartController;
@@ -46,9 +47,14 @@ Route::prefix('admin')->group(function () {
         Route::post('/category/edit/{category}', [CategoryController::class, 'update'])->name('category.update');
         Route::delete('/category/delete/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
-        //
+        //Order
+        Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+        Route::get('/order/show/{order}', [OrderController::class, 'show'])->name('order.show');
+
+        //User
         Route::get('/user', [UserController::class, 'index'])->name('user.index');
         Route::post('/user/{user}', [UserController::class, 'handleStatus'])->name('user.status');
+        
         //Product
         Route::get('/product', [ProductController::class, 'index'])->name('product.index');
         Route::post('/product', [ProductController::class, 'index'])->name('product.search');
@@ -84,5 +90,6 @@ Route::middleware(['auth:web'])->group(function () {
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkoutPost');
+    Route::get('/checkout/vnPayCheck', [CheckoutController::class, 'vnPayCheck'])->name('checkout.vnpay');
 
 });

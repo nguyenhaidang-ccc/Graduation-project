@@ -134,7 +134,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./order.html">
+                                        <a href="{{ route('order.index') }}" class="{{ request()->segment(2) == 'order' ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>Order
                                         </a>
                                     </li>

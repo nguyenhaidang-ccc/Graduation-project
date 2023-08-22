@@ -17,6 +17,11 @@
 
     <!-- Checkout Start -->
     <div class="container-fluid pt-5">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <form method="POST" action="{{ route('checkoutPost')}}">
             @csrf
             <div class="row px-xl-5">
@@ -40,7 +45,7 @@
                             </div>
                             <div class="col-md-12 form-group">
                                 <label>Phone</label>
-                                <input class="form-control" type="number" value="{{Auth::guard('web')->user()->phone}} name="phone" placeholder="phone">
+                                <input class="form-control" type="number" value="{{Auth::guard('web')->user()->phone}}" name="phone" placeholder="phone">
                                 @error('phone')
                                     <p class="text-danger">{{$message}}</p>
                                 @enderror
