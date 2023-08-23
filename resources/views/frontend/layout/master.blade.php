@@ -134,7 +134,7 @@
                         </div>
                         @if(Auth::guard('web')->check())
                             <div class="d-flex align-items-center">
-                                <img class="border rounded-circle" style="height: 45px" src="{{Auth::guard('web')->user()->avatar ?? '/assets/frontend/img/no-avatar.png'}}" alt="avatar">
+                                <img class="border rounded-circle" style="height: 45px" src="{{ Auth::guard('web')->user()->avatar ?? '/assets/frontend/img/no-avatar.png'}}" alt="avatar">
                                 <div class="text-dark ml-2 font-weight-semi-bold">{{Auth::guard('web')->user()->username}}
                                     <form style="margin-top: -5px" action="{{route('logout')}}" method="POST">
                                         @csrf

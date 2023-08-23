@@ -168,11 +168,11 @@ class CheckoutController extends Controller
 
             }elseif($vnp_ResponseCode == 24){ //24: Hủy thanh toán
                 $order->delete();
-                return redirect()->back();
+                return redirect()->route('checkout');
             }
             else{
                 $order->delete();
-                return redirect()->back()->with('error', 'Order payment failed.');
+                return redirect()->route('checkout')->with('error', 'Order payment failed.');
             }
         }
     }

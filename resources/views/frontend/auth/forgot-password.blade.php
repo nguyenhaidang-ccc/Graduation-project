@@ -20,19 +20,14 @@
     <div class="container">
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-6">
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
                 <div id="login-box" class="col-md-12 shadow-none p-3 mb-5 bg-light rounded">
                     <form id="login-form" class="form" action="{{route('password.email')}}" method="post">
                         @csrf
                         <h3 class="text-center text-primary">Forgot Password</h3>
                         <p class="text-center">An email containing further instructions will be sent to your mailbox</p>
-                        @if (session('status'))
+                        @if (session('success'))
                             <div class="alert alert-success">
-                                {{ session('status') }}
+                                {{ session('success') }}
                             </div>
                         @endif          
                         <div class="form-group">

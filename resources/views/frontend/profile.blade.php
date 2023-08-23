@@ -77,115 +77,115 @@
             <div class="col-md-12">
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link text-primary active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Proflie</a>
-                        <a class="nav-item nav-link text-primary" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Project Tab 2</a>
-                        <a class="nav-item nav-link text-primary" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Project Tab 3</a>
+                        <a class="nav-item nav-link text-primary active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Proflie</a>
+                        <a class="nav-item nav-link text-primary" id="nav-order-tab" data-toggle="tab" href="#nav-order" role="tab" aria-controls="nav-order" aria-selected="false">Order history</a>
+                        <a class="nav-item nav-link text-primary" id="nav-password-tab" data-toggle="tab" href="#nav-password" role="tab" aria-controls="nav-password" aria-selected="false">Change password</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active mt-5" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="row">
-                            <div class="col-7">
-                                <div class="info-account mb-3">
-                                    <div class="row">
-                                        <div class="col-3 text-right">
-                                            <label>Email</label>
-                                        </div>
-                                        <div class="col-9 text-start text-dark">
-                                            demo@gmail.com
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="info-account mb-3">
-                                    <div class="row">
-                                        <div class="col-3 text-right">
-                                            <label>Username</label>
-                                        </div>
-                                        <div class="col-9 text-start text-dark">
-                                            demo@gmail.com
+                    <div class="tab-pane fade show active mt-5" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <form action="{{route('profile.update')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="info-account mb-3">
+                                        <div class="row">
+                                            <div class="col-3 text-right">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-9 text-start text-dark">
+                                                {{Auth::guard('web')->user()->email}}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="info-account mb-3">
-                                    <div class="row align-items-center">
-                                        <div class="col-3 text-right">
-                                            <label for="name">Name</label>
-                                        </div>
-                                        <div class="col-9 text-start">
-                                            <input class="form-control" type="text" name="name" id="name" value="Thao Anh">
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="info-account mb-3">
-                                    <div class="row align-items-center">
-                                        <div class="col-3 text-right">
-                                            <label for="phone">Phone</label>
-                                        </div>
-                                        <div class="col-9 text-start">
-                                            <input class="form-control" type="text" name="phone" id="phone" value="Thao Anh">
+                                    <div class="info-account mb-3">
+                                        <div class="row">
+                                            <div class="col-3 text-right">
+                                                <label>Username</label>
+                                            </div>
+                                            <div class="col-9 text-start text-dark">
+                                                {{Auth::guard('web')->user()->username}}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="info-account mb-3">
-                                    <div class="row align-items-center">
-                                        <div class="col-3 text-right">
-                                            <label for="address">Address</label>
-                                        </div>
-                                        <div class="col-9 text-start">
-                                            <input class="form-control" type="text" name="address" id="address" value="Thao Anh">
+                                    <div class="info-account mb-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-right">
+                                                <label for="name">Name</label>
+                                            </div>
+                                            <div class="col-9 text-start">
+                                                <input class="form-control" type="text" name="name" id="name" value="{{Auth::guard('web')->user()->name}}">
+                                            </div>
                                         </div>
                                     </div>
+                                    
+                                    <div class="info-account mb-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-right">
+                                                <label for="phone">Phone</label>
+                                            </div>
+                                            <div class="col-9 text-start">
+                                                <input class="form-control" type="text" name="phone" id="phone" value="{{Auth::guard('web')->user()->phone}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="info-account mb-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-right">
+                                                <label for="address">Address</label>
+                                            </div>
+                                            <div class="col-9 text-start">
+                                                <input class="form-control" type="text" name="address" id="address" value="{{Auth::guard('web')->user()->address}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mb-5">
+                                        <button type="submit"class="btn btn-primary btn-md" >
+                                            Submit
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="text-center mb-5">
-                                    <button type="submit"class="btn btn-primary btn-md" >
-                                        Submit
-                                    </button>
+                                <div class="col-5 d-flex align-items-center justify-content-center">
+                                    <div class="user-avatar">
+                                        <div class="user-avatar-img">
+                                            <img src="{{ Auth::guard('web')->user()->avatar ?? '/assets/frontend/img/no-avatar.png' }}" id="user-avatar" alt="user-avatar">
+                                        </div>
+                                        <div class="user-avatar-btn text-primary">
+                                            <label for="avatar">Choose Image
+                                                <input accept="image/png, image/jpg, image/jpeg" hidden onchange="previewImg(this,'user-avatar')" type="file" name="avatar" id="avatar">
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-5 d-flex align-items-center justify-content-center">
-                                <div class="user-avatar">
-                                    <div class="user-avatar-img">
-                                        <img src="/assets/frontend/img/no-avatar.png" id="user-avatar" alt="user-avatar">
-                                    </div>
-                                    <div class="user-avatar-btn">
-                                        <label for="avatar">Choose Image
-                                            <input onchange="previewImg(this,'user-avatar')" type="file" name="image" id="avatar">
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
                         <table class="table" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Project Name</th>
-                                    <th>Employer</th>
-                                    <th>Time</th>
+                                    <th>ID</th>
+                                    <th>Date / Time</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+                                    <th>Total price</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><a href="#">Work 1</a></td>
-                                    <td>Doe</td>
-                                    <td>john@example.com</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Work 2</a></td>
-                                    <td>Moe</td>
-                                    <td>mary@example.com</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Work 3</a></td>
-                                    <td>Dooley</td>
-                                    <td>july@example.com</td>
-                                </tr>
+                                @foreach(Auth::guard('web')->user()->orders as $order)
+                                    <tr>
+                                        <td>#{{ $order->id }}</td>
+                                        <td>{{ $order->created_at }}</td>
+                                        <td>{{ $order->payment == 1 ? 'VNPay' : 'COD'}}</td>
+                                        <td>{{ $order->status }}</td>
+                                        <td>{{ $order->total_price }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
                         <table class="table" cellspacing="0">
                             <thead>
                                 <tr>

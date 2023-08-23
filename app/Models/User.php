@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable implements CanResetPassword
 {
@@ -23,6 +24,18 @@ class User extends Authenticatable implements CanResetPassword
         'email',
         'password',
     ];
+
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value != null ? \Storage::url($value) : null,
+        );
+    }
+    
+
+    public function orders(){
+        return $this->hasMany(order::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

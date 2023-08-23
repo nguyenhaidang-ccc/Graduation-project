@@ -124,3 +124,14 @@ function getQuantity(size, product_id){
         }
     })
 }
+
+function previewImg(fileInput, showImg){
+    if(fileInput.files && fileInput.files[0]){
+        const reader = new FileReader();
+        
+        reader.onload = (e) =>{ 
+            document.getElementById(showImg).setAttribute('src', e.target.result)
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+  }
