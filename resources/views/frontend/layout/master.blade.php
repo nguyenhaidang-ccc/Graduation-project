@@ -80,7 +80,7 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
+                <a href="{{route('profile')}}" class="btn border">
                     <i class="fas fa-user text-primary"></i>
                 </a>
                 <a href="{{route('cart')}}" class="btn border">
@@ -130,7 +130,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="{{route('contact')}}" class="nav-item nav-link">Contact</a>
                         </div>
                         @if(Auth::guard('web')->check())
                             <div class="d-flex align-items-center">
@@ -199,7 +199,7 @@
                                 Cart</a>
                             <a class="text-dark mb-2" href="checkout.html"><i
                                     class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact
+                            <a class="text-dark" href="{{route('contact')}}"><i class="fa fa-angle-right mr-2"></i>Contact
                                 Us</a>
                         </div>
                     </div>

@@ -14,6 +14,10 @@ class ShopController extends Controller
         return view('frontend.index', compact('highLightProducts'));
     }
 
+    public function contact(){
+        return view('frontend.contact');
+    }
+
     public function shop(Request $request){
         $sizes = ProductItem::all()->unique('size')->pluck('size')->sort();
 

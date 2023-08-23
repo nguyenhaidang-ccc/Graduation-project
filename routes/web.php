@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\AuthUserController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -70,6 +71,7 @@ Route::prefix('admin')->group(function () {
 //Frontend router
 Route::get('/', [ShopController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
+Route::get('/contact', [ShopController::class, 'contact'])->name('contact');
 Route::get('/category/{id}', [ShopController::class, 'getProductByCategory'])->name('category');
 Route::get('/product/{product}', [ShopController::class, 'product'])->name('product');
 Route::get('/get-quantity', [ShopController::class, 'getQuantity']);
@@ -80,10 +82,17 @@ Route::get('/cart/increase/{product_id}/{size}', [CartController::class, 'increa
 Route::get('/cart/decrease/{product_id}/{size}', [CartController::class, 'decrease'])->name('cart.decrease');
 Route::delete('/cart/delete/{product_id}/{size}', [CartController::class, 'delete'])->name('cart.delete');
 
-Route::get('/login', [AuthUserController::class, 'login'])->name('login');
-Route::post('/login', [AuthUserController::class, 'loginPost'])->name('loginPost');
-Route::get('/register', [AuthUserController::class, 'register'])->name('register');
-Route::post('/register', [AuthUserController::class, 'registerPost'])->name('registerPost');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthUserController::class, 'login'])->name('login');
+    Route::post('/login', [AuthUserController::class, 'loginPost'])->name('loginPost');
+    Route::get('/register', [AuthUserController::class, 'register'])->name('register');
+    Route::post('/register', [AuthUserController::class, 'registerPost'])->name('registerPost');
+
+    Route::get('/forgot-password', [AuthUserController::class, 'forgotPassword'])->name('password.request');
+    Route::post('/forgot-password', [AuthUserController::class, 'forgotPasswordPost'])->name('password.email');
+    Route::get('/reset-password/{token}', [AuthUserController::class, 'resetPassword'])->name('password.reset');
+    Route::post('/reset-password', [AuthUserController::class, 'resetPasswordPost'])->name('password.update');
+});
 
 Route::middleware(['auth:web'])->group(function () {
     Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');
@@ -91,5 +100,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkoutPost');
     Route::get('/checkout/vnPayCheck', [CheckoutController::class, 'vnPayCheck'])->name('checkout.vnpay');
+
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
 
 });
