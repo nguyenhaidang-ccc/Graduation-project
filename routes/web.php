@@ -7,12 +7,14 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\DashboardController;
 
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\AuthUserController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\OrderHistoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +34,9 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware(['auth:admin'])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
         //Brand
         Route::get('/brand', [BrandController::class, 'index'])->name('brand.index');
         Route::get('/brand/create', [BrandController::class, 'create'])->name('brand.create');
@@ -51,6 +56,7 @@ Route::prefix('admin')->group(function () {
         //Order
         Route::get('/order', [OrderController::class, 'index'])->name('order.index');
         Route::get('/order/show/{order}', [OrderController::class, 'show'])->name('order.show');
+        Route::post('/order/confirm/{order}', [OrderController::class, 'confirm'])->name('order.confirm');
 
         //User
         Route::get('/user', [UserController::class, 'index'])->name('user.index');
@@ -74,6 +80,7 @@ Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/contact', [ShopController::class, 'contact'])->name('contact');
 Route::get('/category/{id}', [ShopController::class, 'getProductByCategory'])->name('category');
 Route::get('/product/{product}', [ShopController::class, 'product'])->name('product');
+Route::get('/brand/{brand}', [ShopController::class, 'brand'])->name('brand');
 Route::get('/get-quantity', [ShopController::class, 'getQuantity']);
 
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
@@ -103,5 +110,15 @@ Route::middleware(['auth:web'])->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+    Route::post('/change-password', [ProfileController::class, 'changePasswordPost'])->name('profile.update-password');
+
+    Route::get('/order-history', [OrderHistoryController::class, 'index'])->name('order-history');
+    Route::get('/order-history/{order}', [OrderHistoryController::class, 'orderDetail'])->name('order.detail');
+    Route::post('/order-history/cancel/{order}', [OrderHistoryController::class, 'cancel'])->name('order.cancel');
+    Route::post('/order-history/receive/{order}', [OrderHistoryController::class, 'receive'])->name('order.receive');
+    Route::post('/order-history/return/{order}', [OrderHistoryController::class, 'return'])->name('order.return');
+
 
 });

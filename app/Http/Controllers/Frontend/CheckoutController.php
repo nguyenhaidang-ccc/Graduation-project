@@ -31,7 +31,7 @@ class CheckoutController extends Controller
 
         $data['total_price'] = session('total_price');
         $data['user_id'] = \Auth::id();
-        $data['status'] = 0;
+        $data['status'] = 2; // trang thai Pending
         /* Nếu thanh toán COD */
         if($data['payment'] == 2){
             DB::beginTransaction();
@@ -40,7 +40,7 @@ class CheckoutController extends Controller
                 $this->createOrderDetail($order);
                 DB::commit();
 
-                return redirect()->route('home');
+                return redirect()->route('order-history')->with('success', 'Thank you, your order has been successfully placed.');
 
             } catch (\Throwable $e) {
                 DB::rollback();
@@ -164,7 +164,7 @@ class CheckoutController extends Controller
             //00: TH thành công
             if($vnp_ResponseCode == 00){
                 $this->createOrderDetail($order);
-                return redirect()->route('home');
+                return redirect()->route('order-history')->with('success', 'Thank you, your order has been successfully placed.');
 
             }elseif($vnp_ResponseCode == 24){ //24: Hủy thanh toán
                 $order->delete();

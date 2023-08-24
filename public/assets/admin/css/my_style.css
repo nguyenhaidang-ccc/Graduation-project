@@ -63,3 +63,100 @@ nav[aria-label="Pagination Navigation"] a:hover {
 .ui-theme-settings .btn-open-options {
     bottom: 48px;
 }
+
+/* Order Status */
+.status.delivered{
+    color: #6fce00;
+    font-size: 14px;
+    font-weight: 600;
+}
+.status.pending{
+    color: #ffbf00;
+    font-size: 14px;
+    font-weight: 600;
+}
+.status.return{
+    color: #f00;
+    font-size: 14px;
+    font-weight: 600;
+}
+.status.cancel{
+    color: #7d7c7c;
+    font-size: 14px;
+    font-weight: 600;
+}
+.status.inprogress{
+    color: #1795ce;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.cardBox{
+    position: relative;
+    width: 100%;
+    display: grid;
+    padding: 20px;
+    grid-template-columns: repeat(4,1fr);
+    grid-gap: 30px;
+}
+.cardBox .card{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    position: relative;
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 7px 25px rgba(0,0,0,0.08);
+}
+.cardBox .card .numbers{
+    position: relative;
+    font-weight: 600;
+    font-size: 40px;
+    color: #1795ce;
+}
+.cardBox .card .cardName{
+    color: #999;
+    font-size: 18px;
+    margin-top: 5px; 
+}
+.cardBox .card .iconBx{
+    font-size: 56px;
+    color: #999;
+}
+.cardBox .card:hover{
+    background: #1795ce;
+}
+.cardBox .card:hover .numbers,
+.cardBox .card:hover .cardName,
+.cardBox .card:hover .iconBx{
+    color: #fff;
+}
+.cardChart {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 30px;
+    margin-top: 10px;
+}
+.cardChart .cardChart-inner {
+    position: relative;
+    display: grid;
+    min-height: 500px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 7px 25px rgba(0,0,0,0.08);
+    border-radius: 20px;
+}
+.cardChart .cardChart-inner .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.cardChart .cardChart-inner .cardHeader h2{
+    font-weight: 600;
+    color: #1795ce;
+}

@@ -75,15 +75,20 @@
     <div class="container shadow-sm bg-body rounded">
         <div class="row">
             <div class="col-md-12">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{session('success')}}
+                    </div>
+                @endif
                 <nav>
-                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link text-primary active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Proflie</a>
-                        <a class="nav-item nav-link text-primary" id="nav-order-tab" data-toggle="tab" href="#nav-order" role="tab" aria-controls="nav-order" aria-selected="false">Order history</a>
-                        <a class="nav-item nav-link text-primary" id="nav-password-tab" data-toggle="tab" href="#nav-password" role="tab" aria-controls="nav-password" aria-selected="false">Change password</a>
+                    <div class="nav nav-tabs nav-fill">
+                        <a href="{{route('profile')}}" class="nav-item nav-link text-primary {{ request()->segment(1) == 'profile' ? 'active' : ''}}">Proflie</a>
+                        <a href="{{route('order-history')}}" class="nav-item nav-link text-primary {{ request()->segment(1) == 'order-history' ? 'active' : ''}}" >Order history</a>
+                        <a href="{{route('profile.change-password')}}" class="nav-item nav-link text-primary {{ request()->segment(1) == 'change-password' ? 'active' : ''}}">Change password</a>
                     </div>
                 </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active mt-5" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="tab-content" >
+                    <div class="tab-pane active mt-5" >
                         <form action="{{route('profile.update')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
@@ -159,59 +164,6 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
-                    <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
-                        <table class="table" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Date / Time</th>
-                                    <th>Payment</th>
-                                    <th>Status</th>
-                                    <th>Total price</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach(Auth::guard('web')->user()->orders as $order)
-                                    <tr>
-                                        <td>#{{ $order->id }}</td>
-                                        <td>{{ $order->created_at }}</td>
-                                        <td>{{ $order->payment == 1 ? 'VNPay' : 'COD'}}</td>
-                                        <td>{{ $order->status }}</td>
-                                        <td>{{ $order->total_price }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
-                        <table class="table" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Contest Name</th>
-                                    <th>Date</th>
-                                    <th>Award Position</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><a href="#">Work 1</a></td>
-                                    <td>Doe</td>
-                                    <td>john@example.com</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Work 2</a></td>
-                                    <td>Moe</td>
-                                    <td>mary@example.com</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Work 3</a></td>
-                                    <td>Dooley</td>
-                                    <td>july@example.com</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>

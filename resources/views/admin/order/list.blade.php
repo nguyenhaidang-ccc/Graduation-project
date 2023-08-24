@@ -20,6 +20,12 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
@@ -35,7 +41,7 @@
                                 <th class="text-center">Payment method</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Total price</th>
-                                <th class="text-center">Actions</th>
+                                <th class="text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,11 +77,29 @@
                                     <td class="text-center">
                                         {{ $order->payment == 1 ? 'VNPay' : 'COD'}}
                                     </td>
-                                    <td class="text-center">
-                                        {{ $order->status}}
-                                    </td>
+                                    @if($order->status == 0)
+                                        <td class="text-center"><span class="status cancel">Cancel</span></td>
+                                        @elseif($order->status == 1)
+                                        <td class="text-center"><span class="status return">Return</span></td>
+                                        @elseif($order->status == 2)
+                                        <td class="text-center"><span class="status pending">Pending</span></td>
+                                        @elseif($order->status == 3)
+                                        <td class="text-center"><span class="status inprogress">In progress</span></td>
+                                        @else
+                                        <td class="text-center"><span class="status delivered">Delivered</span></td>
+                                        @endif
                                     <td class="text-center">{{number_format($order->total_price)}}đ</td>
-                                    <td class="text-center">
+                                    <td class="justify-content-end d-flex">
+                                        @if($order->status === 2)
+                                            <form action="{{route('order.confirm', $order)}}" method="POST">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="btn btn-hover-shine btn-outline-info border-0 btn-sm">
+                                                    Confirm
+                                                </button>
+                                            </form>
+                                        @endif()
+
                                         <a href="{{route('order.show', $order)}}"
                                             class="btn btn-hover-shine btn-outline-primary border-0 btn-sm">
                                             Details

@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Brand;
 use App\Models\ProductItem;
 
 class ShopController extends Controller
 {
     public function index(){
         $highLightProducts = Product::where('featured', 1)->limit(6)->get();
-        return view('frontend.index', compact('highLightProducts'));
+        $products = Product::limit(6)->get();
+        return view('frontend.index', compact('highLightProducts', 'products'));
     }
 
     public function contact(){
@@ -104,7 +106,24 @@ class ShopController extends Controller
     }
 
     public function product(Product $product){
-        return view('frontend.product', compact('product'));
+        $relatedProducts = Product::where('category_id', $product->category_id)
+                                ->where('id', '<>', $product->id)
+                                ->limit(8)
+                                ->get();
+                
+        return view('frontend.product', compact('product', 'relatedProducts'));
+    }
+
+    public function brand(Brand $brand, Request $request){
+        $sizes = ProductItem::all()->unique('size')->pluck('size')->sort();
+
+        $products = Product::where('brand_id',$brand->id);
+
+        $products = $this->filter($products, $request);
+        $products = $this->sortBy($products, $request);
+        $products = $products->paginate(9);
+
+        return view('frontend.shop',compact('products','sizes'));
     }
 
     public function getQuantity(Request $request){

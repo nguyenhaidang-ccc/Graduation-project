@@ -208,13 +208,15 @@
         </div>
     </div>
     
-    <script src="/assets/admin/js/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ) )
-            .catch( error => {
-                console.error( error );
-            } );
-    </script>
+    @push('scripts')
+        <script src="/assets/admin/js/ckeditor.js"></script>
+        <script>
+            ClassicEditor
+                .create( document.querySelector( '#editor' ) )
+                .catch( error => {
+                    console.error( error );
+                } );
+        </script>
+    @endpush
 
 @endsection

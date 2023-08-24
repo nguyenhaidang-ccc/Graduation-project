@@ -16,4 +16,11 @@ class OrderController extends Controller
     public function show(Order $order){
         return view('admin.order.show', compact('order'));
     }
+
+    public function confirm(Order $order){
+        $order->status = 3;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Confirm order successfully.');
+    }
 }

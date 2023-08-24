@@ -1531,6 +1531,7 @@ pre code {
 
 .table {
   width: 100%;
+  border-bottom: 1px solid #EDF1FF;
   margin-bottom: 1rem;
   color: #6F6F6F;
 }
@@ -1538,7 +1539,7 @@ pre code {
 .table th,
 .table td {
   padding: 0.75rem;
-  vertical-align: top;
+  vertical-align: center;
   border-top: 1px solid #EDF1FF;
 }
 
@@ -9427,6 +9428,7 @@ a.text-dark:hover, a.text-dark:focus {
   }
   .table {
     border-collapse: collapse !important;
+
   }
   .table td,
   .table th {
@@ -9590,4 +9592,40 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 input[type="number"] {
     -moz-appearance: textfield; /* Firefox */
+}
+
+.user-avatar-small{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Order Status */
+.status.delivered{
+  color: #6fce00;
+  font-size: 16px;
+  font-weight: 600;
+}
+.status.pending{
+  color: #ffbf00;
+  font-size: 16px;
+  font-weight: 600;
+}
+.status.return{
+  color: #f00;
+  font-size: 16px;
+  font-weight: 600;
+}
+.status.cancel{
+  color: #7d7c7c;
+  font-size: 16px;
+  font-weight: 600;
+}
+.status.inprogress{
+  color: #1795ce;
+  font-size: 16px;
+  font-weight: 600;
 }

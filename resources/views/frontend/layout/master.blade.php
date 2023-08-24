@@ -120,21 +120,22 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="{{route('home')}}" class="nav-item nav-link">Home</a>
-                            <a href="{{route('shop')}}" class="nav-item nav-link">Shop</a>
+                            <a href="{{route('home')}}" class="nav-item nav-link {{ request()->segment(1) == '' ? 'active' : '' }}">Home</a>
+                            <a href="{{route('shop')}}" class="nav-item nav-link {{ request()->segment(1) == 'shop' ? 'active' : '' }}">Shop</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Brands</a>
+                                <a href="#" class="nav-link dropdown-toggle {{ request()->segment(1) == 'brand' ? 'active' : '' }}" data-toggle="dropdown">Brands</a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     @foreach($brands as $brand)
-                                    <a href="cart.html" class="dropdown-item">{{$brand->name}}</a>
+                                    <a href="{{route('brand', $brand)}}" class="dropdown-item">{{$brand->name}}</a>
                                     @endforeach
                                 </div>
                             </div>
-                            <a href="{{route('contact')}}" class="nav-item nav-link">Contact</a>
+                            <a href="{{route('contact')}}" class="nav-item nav-link {{ request()->segment(1) == 'contact' ? 'active' : '' }}">Contact</a>
+                            <a href="{{route('order-history')}}" class="nav-item nav-link {{ request()->segment(1) == 'order-history' ? 'active' : '' }}">Order Placed</a>
                         </div>
                         @if(Auth::guard('web')->check())
                             <div class="d-flex align-items-center">
-                                <img class="border rounded-circle" style="height: 45px" src="{{ Auth::guard('web')->user()->avatar ?? '/assets/frontend/img/no-avatar.png'}}" alt="avatar">
+                                <img class="user-avatar-small border" src="{{ Auth::guard('web')->user()->avatar ?? '/assets/frontend/img/no-avatar.png'}}" alt="avatar">
                                 <div class="text-dark ml-2 font-weight-semi-bold">{{Auth::guard('web')->user()->username}}
                                     <form style="margin-top: -5px" action="{{route('logout')}}" method="POST">
                                         @csrf
@@ -264,13 +265,11 @@
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/frontend/lib/easing/easing.min.js"></script>
     <script src="/assets/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
-
     <!-- Contact Javascript File -->
     <script src="/assets/frontend/mail/jqBootstrapValidation.min.js"></script>
     <script src="/assets/frontend/mail/contact.js"></script>
