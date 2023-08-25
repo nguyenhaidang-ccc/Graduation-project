@@ -36,7 +36,6 @@
                                 <th class="text-center">ID</th>
                                 <th>Customer</th>
                                 <th class="text-center">Address</th>
-                                <th class="text-center">Email</th>
                                 <th class="text-center">Phone</th>
                                 <th class="text-center">Payment method</th>
                                 <th class="text-center">Status</th>
@@ -67,9 +66,6 @@
                                     </td>
                                     <td class="text-center">
                                         {{$order->address}}
-                                    </td>
-                                    <td class="text-center">
-                                        {{$order->email}}
                                     </td>
                                     <td class="text-center">
                                         {{$order->phone}}

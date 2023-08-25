@@ -32,6 +32,7 @@
                             <thead>
                                 <tr>
                                     <th>Product</th>
+                                    <th class="text-center">Color</th>
                                     <th class="text-center">Quantity</th>
                                     <th class="text-center">Size</th>
                                     <th class="text-center">Unit Price</th>
@@ -39,7 +40,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($order->products as $product)
+                                @foreach($order->products as $item)
                                 <tr>
                                     <td>
                                         <div class="widget-content p-0">
@@ -49,24 +50,27 @@
                                                         <img style="height: 60px;"
                                                             data-toggle="tooltip" title="Image"
                                                             data-placement="bottom"
-                                                            src="{{$product->images->shift()->image}}" alt="">
+                                                            src="{{$item->images->shift()->image}}" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="widget-content-left flex2">
-                                                    <div class="widget-heading">{{$product->name}}</div>
+                                                    <div class="widget-heading">{{$item->pivot->name}}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        {{$product->pivot->quantity}}
+                                        {{$item->pivot->color}}
                                     </td>
                                     <td class="text-center">
-                                        {{$product->pivot->size}}
+                                        {{$item->pivot->quantity}}
                                     </td>
-                                    <td class="text-center">{{number_format($product->pivot->price)}}đ</td>
                                     <td class="text-center">
-                                        {{number_format($product->pivot->price * $product->pivot->quantity)}}đ
+                                        {{$item->pivot->size}}
+                                    </td>
+                                    <td class="text-center">{{number_format($item->pivot->price)}}đ</td>
+                                    <td class="text-center">
+                                        {{number_format($item->pivot->price * $item->pivot->quantity)}}đ
                                     </td>
                                 </tr>
                                 @endforeach
@@ -101,12 +105,37 @@
                         </div>
                     </div>
 
-
                     <div class="position-relative row form-group">
                         <label for="address" class="col-md-3 text-md-right col-form-label">
                             Address</label>
                         <div class="col-md-9 col-xl-8">
                             <p>{{$order->address}}</p>
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="address" class="col-md-3 text-md-right col-form-label">
+                            Status</label>
+                        <div class="col-md-9 col-xl-8">
+                            @if ($order->status === 0)
+                                <p>Cancel</p>
+                            @elseif ($order->status === 1)
+                                <p>Return</p>
+                            @elseif ($order->status === 2)
+                                <p>Pending</p>
+                            @elseif ($order->status === 3)
+                                <p>In progress</p>
+                            @else
+                                <p>Delivered</p>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="address" class="col-md-3 text-md-right col-form-label">
+                            Payment</label>
+                        <div class="col-md-9 col-xl-8">
+                            <p>{{$order->payment == 1 ? 'VNPay' : 'COD'}}</p>
                         </div>
                     </div>
 

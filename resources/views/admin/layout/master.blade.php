@@ -158,6 +158,16 @@
                                             <i class="metismenu-icon"></i>Brand
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{route('post_type.index')}}" class="{{ request()->segment(2) == 'post_type' ? 'mm-active' : ''}}">
+                                            <i class="metismenu-icon"></i>Post type
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('post.index')}}" class="{{ request()->segment(2) == 'post' ? 'mm-active' : ''}}">
+                                            <i class="metismenu-icon"></i>Post
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

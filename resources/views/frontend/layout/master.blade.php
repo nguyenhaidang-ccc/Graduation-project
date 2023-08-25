@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>EShopper - Bootstrap Shop Template</title>
+    <title>E Shopper</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="Free HTML Templates" name="keywords" />
     <meta content="Free HTML Templates" name="description" />
@@ -131,6 +131,7 @@
                                 </div>
                             </div>
                             <a href="{{route('contact')}}" class="nav-item nav-link {{ request()->segment(1) == 'contact' ? 'active' : '' }}">Contact</a>
+                            <a href="{{route('blog')}}" class="nav-item nav-link {{ request()->segment(1) == 'blog' ? 'active' : '' }}">Blog</a>
                             <a href="{{route('order-history')}}" class="nav-item nav-link {{ request()->segment(1) == 'order-history' ? 'active' : '' }}">Order Placed</a>
                         </div>
                         @if(Auth::guard('web')->check())

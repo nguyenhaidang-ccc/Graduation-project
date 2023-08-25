@@ -22,6 +22,9 @@ return new class extends Migration
             $table->tinyInteger('featured')->default(0);
             $table->longText('description');
             $table->timestamps();
+
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

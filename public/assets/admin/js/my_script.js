@@ -1,5 +1,3 @@
-//Khi click #thumbnail thì cũng gọi sự kiện click #image
-
 // Ajax setup
 $.ajaxSetup({
     headers: {
@@ -49,12 +47,12 @@ $(document).ready(function () {
 
 });
 
-function previewImg(input, id) {
+function previewThumbnail(input) {
     var file = input.files[0];
     if (file) {
         var reader = new FileReader();
         reader.onload = function(e) {
-            $(".preview-image-" + id).attr("src", e.target.result);
+            $(".preview-thumbnail").attr("src", e.target.result);
         };
         reader.readAsDataURL(file);
     }

@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PostTypeController;
+use App\Http\Controllers\Admin\PostController;
 
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\CartController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\Frontend\AuthUserController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\OrderHistoryController;
+use App\Http\Controllers\Frontend\BlogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +47,24 @@ Route::prefix('admin')->group(function () {
         Route::get('/brand/edit/{brand}', [BrandController::class, 'edit'])->name('brand.edit');
         Route::post('/brand/edit/{brand}', [BrandController::class, 'update'])->name('brand.update');
         Route::delete('/brand/delete/{brand}', [BrandController::class, 'destroy'])->name('brand.destroy');
+
+        //Post Type
+        Route::get('/post_type', [PostTypeController::class, 'index'])->name('post_type.index');
+        Route::get('/post_type/create', [PostTypeController::class, 'create'])->name('post_type.create');
+        Route::post('/post_type/create', [PostTypeController::class, 'store'])->name('post_type.store');
+        Route::get('/post_type/edit/{post_type}', [PostTypeController::class, 'edit'])->name('post_type.edit');
+        Route::post('/post_type/edit/{post_type}', [PostTypeController::class, 'update'])->name('post_type.update');
+        Route::delete('/post_type/delete/{post_type}', [PostTypeController::class, 'destroy'])->name('post_type.destroy');
+
+        //Post
+        Route::get('/post', [PostController::class, 'index'])->name('post.index');
+        Route::post('/post', [PostController::class, 'index'])->name('post.search');
+        Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
+        Route::post('/post/create', [PostController::class, 'store'])->name('post.store');
+        Route::get('/post/edit/{post}', [PostController::class, 'edit'])->name('post.edit');
+        Route::post('/post/edit/{post}', [PostController::class, 'update'])->name('post.update');
+        Route::get('/post/show/{post}', [PostController::class, 'show'])->name('post.show');
+        Route::delete('/post/delete/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
         //Category
         Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
@@ -82,6 +103,8 @@ Route::get('/category/{id}', [ShopController::class, 'getProductByCategory'])->n
 Route::get('/product/{product}', [ShopController::class, 'product'])->name('product');
 Route::get('/brand/{brand}', [ShopController::class, 'brand'])->name('brand');
 Route::get('/get-quantity', [ShopController::class, 'getQuantity']);
+
+Route::get('/blog', [BlogController::class, 'blog'])->name('blog');
 
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
