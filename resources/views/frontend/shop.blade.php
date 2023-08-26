@@ -5,6 +5,7 @@
         input.custom-input{
             height: 35px;
             width: 120px;
+            border-radius: 5px;
         }
         .custom-btn{
             height: 30px;

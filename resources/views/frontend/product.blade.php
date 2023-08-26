@@ -263,7 +263,7 @@
                                 <h6>{{number_format($product->price)}}đ</h6>
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
+                        <div class="card-footer d-flex justify-content-center bg-light border">
                             <a href="{{route('product', $product)}}" class="btn btn-sm text-dark p-0">
                                 <i class="fas fa-eye text-primary mr-1"></i>
                                 View Detail

@@ -104,8 +104,11 @@ Route::get('/product/{product}', [ShopController::class, 'product'])->name('prod
 Route::get('/brand/{brand}', [ShopController::class, 'brand'])->name('brand');
 Route::get('/get-quantity', [ShopController::class, 'getQuantity']);
 
+//Blog
 Route::get('/blog', [BlogController::class, 'blog'])->name('blog');
+Route::get('/blog/{post}', [BlogController::class, 'blogDetail'])->name('blog.detail');
 
+//Cart
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 Route::get('/cart/increase/{product_id}/{size}', [CartController::class, 'increase'])->name('cart.increase');

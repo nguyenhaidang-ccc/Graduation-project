@@ -12,4 +12,8 @@ class BlogController extends Controller
         $posts = Post::orderByDesc('id')->paginate(9);
         return view('frontend.blog', compact('posts'));
     }
+
+    public function blogDetail(Post $post){
+        return view('frontend.blog-detail', compact('post'));
+    }
 }

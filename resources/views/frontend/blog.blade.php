@@ -2,6 +2,19 @@
 
 @section('content')
 
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Blog</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a href="{{route('home')}}">Home</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">Blog</p>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
 <section class="blog-section spad">
     <div class="container">
         <div class="row">
@@ -14,7 +27,7 @@
                                     <img src="{{$post->thumbnail}}" alt="thumbnail">
                                 </div>
                                 <div class="bi-text">
-                                    <a href="#">
+                                    <a href="{{route('blog.detail', $post)}}">
                                         <h4>{{ $post->title }}</h4>
                                     </a>
                                     <p>{{$post->postType->name}} <span>- {{date_format($post->created_at, "M d, Y")}}</span></p>

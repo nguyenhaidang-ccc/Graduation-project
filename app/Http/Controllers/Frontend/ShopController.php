@@ -11,8 +11,8 @@ use App\Models\ProductItem;
 class ShopController extends Controller
 {
     public function index(){
-        $highLightProducts = Product::where('featured', 1)->limit(6)->get();
-        $products = Product::limit(6)->get();
+        $highLightProducts = Product::where('featured', 1)->orderByDesc('id')->limit(8)->get();
+        $products = Product::orderByDesc('id')->limit(8)->get();
         return view('frontend.index', compact('highLightProducts', 'products'));
     }
 

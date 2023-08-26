@@ -16,7 +16,7 @@
                                         10% Off Your First Order
                                     </h4>
                                     <h3 class="display-4 text-white font-weight-semi-bold mb-4">
-                                        Fashionable Dress
+                                        Quality Products
                                     </h3>
                                     <a href="{{route('shop')}}" class="btn btn-light py-2 px-3">Shop Now</a>
                                 </div>
