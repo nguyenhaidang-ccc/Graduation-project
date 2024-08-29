@@ -13,7 +13,7 @@
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px">
                                     <h4 class="text-light text-uppercase font-weight-medium mb-3">
-                                        10% Off Your First Order
+                                       
                                     </h4>
                                     <h3 class="display-4 text-white font-weight-semi-bold mb-4">
                                         Quality Products
@@ -27,7 +27,7 @@
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px">
                                     <h4 class="text-light text-uppercase font-weight-medium mb-3">
-                                        10% Off Your First Order
+                                       
                                     </h4>
                                     <h3 class="display-4 text-white font-weight-semi-bold mb-4">
                                         Reasonable Price
@@ -98,7 +98,7 @@
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <h6 class="text-truncate mb-3">{{$product->name}} - {{$product->color}}</h6>
                         <div class="d-flex justify-content-center">
-                            <h6 class="text-danger font-weight-bold">{{number_format($product->price)}}đ</h6>
+                            <h6 class="text-danger font-weight-bold">{{number_format($product->price)}}VND</h6>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-center bg-light border">
@@ -120,7 +120,7 @@
                 <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
                     <img src="/assets/frontend/img/offer-1.png" alt="">
                     <div class="position-relative" style="z-index: 1;">
-                        <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
+                        <h5 class="text-uppercase text-primary mb-3"></h5>
                         <h1 class="mb-4 font-weight-semi-bold">Spring Collection</h1>
                         <a href="{{route('shop')}}" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
                     </div>
@@ -130,7 +130,7 @@
                 <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
                     <img src="/assets/frontend/img/offer-2.png" alt="">
                     <div class="position-relative" style="z-index: 1;">
-                        <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
+                        <h5 class="text-uppercase text-primary mb-3"></h5>
                         <h1 class="mb-4 font-weight-semi-bold">Winter Collection</h1>
                         <a href="{{route('shop')}}" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
                     </div>
@@ -155,7 +155,7 @@
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <h6 class="text-truncate mb-3">{{$product->name}} - {{$product->color}}</h6>
                         <div class="d-flex justify-content-center">
-                            <h6 class="text-danger font-weight-bold">{{number_format($product->price)}}đ</h6>
+                            <h6 class="text-danger font-weight-bold">{{number_format($product->price)}}VND</h6>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-center bg-light border">
@@ -172,7 +172,7 @@
 
 
     <!-- Vendor Start -->
-    <div class="container-fluid py-5">
+    <!-- <div class="container-fluid py-5">
         <div class="row px-xl-5">
             <div class="col">
                 <div class="owl-carousel vendor-carousel">
@@ -203,7 +203,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Vendor End -->
 
 

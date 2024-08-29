@@ -11,7 +11,7 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
-
+    
     public function productItems()
     {
         return $this->hasMany(ProductItem::class);
@@ -36,5 +36,10 @@ class Product extends Model
     {
         return $this->belongsToMany(Order::class)
                     ->withPivot('name', 'color' ,'quantity', 'price','size');
+    }
+
+    public function productReviews()
+    {
+        return $this->hasMany(ProductReview::class);
     }
 }

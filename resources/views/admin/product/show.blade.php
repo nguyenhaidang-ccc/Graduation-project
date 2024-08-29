@@ -65,7 +65,7 @@
                         <label for="price"
                             class="col-md-3 text-md-right col-form-label">Price</label>
                         <div class="col-md-9 col-xl-8">
-                            <p>{{number_format($product->price)}}đ</p>
+                            <p>{{number_format($product->price)}}VND</p>
                         </div>
                     </div>
 

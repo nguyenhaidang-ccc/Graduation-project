@@ -46,7 +46,7 @@
                                     <td class="align-middle"><img src="{{$cart['image']}}" style="width: 55px; padding-right:5px">
                                         <a href="{{route('product', $cart['product_id'])}}">{{$cart['name']}} - {{$cart['color']}}</a>
                                     </td>
-                                    <td class="align-middle">{{number_format($cart['price'])}}đ</td>
+                                    <td class="align-middle">{{number_format($cart['price'])}}VND</td>
                                     <td class="align-middle">{{$cart['size']}}</td>
                                     <td class="align-middle">
                                         <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -67,7 +67,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="align-middle">{{number_format($cart['quantity'] * $cart['price'])}}đ</td>
+                                    <td class="align-middle">{{number_format($cart['quantity'] * $cart['price'])}}VND</td>
                                     
                                     <td class="align-middle">
                                         <form method="POST" action="{{route('cart.delete', [$cart['product_id'], $cart['size']])}}">
@@ -94,7 +94,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">{{number_format(session('total_price'))}}đ</h6>
+                            <h6 class="font-weight-medium">{{number_format(session('total_price'))}}VND</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
@@ -104,7 +104,7 @@
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">{{number_format(session('total_price'))}}đ</h5>
+                            <h5 class="font-weight-bold">{{number_format(session('total_price'))}}VND</h5>
                         </div>
                         <a href="{{route('checkout')}}" class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</a>
                     </div>
@@ -112,7 +112,7 @@
             </div>
         </div>
         @else
-            <h5 class="text-center">Không có sản phẩm nào!</h5>
+            <h5 class="text-center">No products!</h5>
             <div class="row justify-content-center">
                 <a href="{{route('shop')}}" class="btn btn-primary my-4">Continue shopping</a>
             </div>

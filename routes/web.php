@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\DiscountCodeController;
+use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SubscriberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
@@ -18,6 +22,8 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\OrderHistoryController;
 use App\Http\Controllers\Frontend\BlogController;
+use App\Http\Controllers\WishlistController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +45,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+        Route::get('admin/bao-cao-thang', [DashboardController::class, 'downloadMonthlyReport'])->name('admin.downloadMonthlyReport');
 
         //Brand
         Route::get('/brand', [BrandController::class, 'index'])->name('brand.index');
@@ -92,6 +99,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/product/edit/{product}', [ProductController::class, 'update'])->name('product.update');
         Route::get('/product/show/{product}', [ProductController::class, 'show'])->name('product.show');
         Route::delete('/product/delete/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+
     });
 });
 
@@ -103,6 +111,8 @@ Route::get('/category/{id}', [ShopController::class, 'getProductByCategory'])->n
 Route::get('/product/{product}', [ShopController::class, 'product'])->name('product');
 Route::get('/brand/{brand}', [ShopController::class, 'brand'])->name('brand');
 Route::get('/get-quantity', [ShopController::class, 'getQuantity']);
+
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 //Blog
 Route::get('/blog', [BlogController::class, 'blog'])->name('blog');
@@ -133,6 +143,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkoutPost');
     Route::get('/checkout/vnPayCheck', [CheckoutController::class, 'vnPayCheck'])->name('checkout.vnpay');
+    Route::get('/order-success', [CheckoutController::class, 'notification'])->name('order.success');
 
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -140,11 +151,25 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
     Route::post('/change-password', [ProfileController::class, 'changePasswordPost'])->name('profile.update-password');
 
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+    Route::post('/wishlist', [WishlistController::class, 'store'])->name('wishlist.store');
+    Route::delete('/wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
+    
     Route::get('/order-history', [OrderHistoryController::class, 'index'])->name('order-history');
     Route::get('/order-history/{order}', [OrderHistoryController::class, 'orderDetail'])->name('order.detail');
     Route::post('/order-history/cancel/{order}', [OrderHistoryController::class, 'cancel'])->name('order.cancel');
     Route::post('/order-history/receive/{order}', [OrderHistoryController::class, 'receive'])->name('order.receive');
     Route::post('/order-history/return/{order}', [OrderHistoryController::class, 'return'])->name('order.return');
+    Route::get('order-history/hoa-don/{order}', [OrderHistoryController::class, 'downloadInvoice'])->name('orderHistory.downloadInvoice');
+
+    Route::get('auth/facebook', [App\Http\Controllers\FacebookController::class, 'redirectToFacebook'])->name('auth.facebook');
+    Route::get('auth/facebook/callback', [App\Http\Controllers\FacebookController::class, 'handleFacebookCallback']);
+    Route::post('share/facebook', [App\Http\Controllers\FacebookController::class, 'shareToFacebook'])->name('share.facebook');
+
+    Route::post('/subscribe', [SubscriberController::class, 'subscribe'])->name('subscribe');
+
+    
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
 
 
 });

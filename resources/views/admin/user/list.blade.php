@@ -11,13 +11,13 @@
                 </div>
                 <div>
                     User
-                    <div class="page-title-subheading">
+                    <!-- <div class="page-title-subheading">
                         View, create, update, delete and manage.
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
-            <div class="page-title-actions">
+            <!-- <div class="page-title-actions">
                 <a href="./user-create.html" class="btn-shadow btn-hover-shine mr-3 btn btn-primary">
                     <span class="btn-icon-wrapper pr-2 opacity-7">
                         <i class="fa fa-plus fa-w-20"></i>
@@ -25,7 +25,7 @@
                     Create
                 </a>
             </div>
-        </div>
+        </div> -->
     </div>
 
     @if (session('success'))

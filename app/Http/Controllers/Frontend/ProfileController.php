@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
-use Hash;
+use \Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -15,7 +16,7 @@ class ProfileController extends Controller
     }
 
     public function update(Request $request){
-        $user = \Auth::guard('web')->user();
+        $user = Auth::guard('web')->user();
         if($request->avatar){
             $file = $request->avatar;
             $imageName = $file->hashName();
@@ -37,7 +38,7 @@ class ProfileController extends Controller
     }
 
     public function changePasswordPost(Request $request){
-        $user = \Auth::guard('web')->user();
+        $user = Auth::guard('web')->user();
 
         $request->validate([
             'old_password' => 'required',

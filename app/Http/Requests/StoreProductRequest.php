@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\UniqueColor;
+use App\Rules\UniqueProductCode;
 
 class StoreProductRequest extends FormRequest
 {
@@ -28,7 +29,7 @@ class StoreProductRequest extends FormRequest
             'name' => 'required|string',
             'price' => 'required|numeric',
             'color' => ['required','string', new UniqueColor],
-            'product_code' => 'required|string',
+            'product_code' => ['required','string',new UniqueProductCode],
             'featured' => 'nullable|numeric',
             'description' =>'required|string',
             'sizes' => 'array|required',

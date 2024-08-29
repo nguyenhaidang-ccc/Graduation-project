@@ -2,6 +2,32 @@
 
 @section('content')
 
+<style>
+.rate {
+    direction: rtl;
+    display: flex;
+}
+
+.rate input[type="radio"] {
+    display: none;
+}
+
+.rate label {
+    font-size: 24px;
+    color: #ddd;
+    cursor: pointer;
+}
+
+.rate label:hover,
+.rate label:hover ~ label,
+.rate input[type="radio"]:checked ~ label {
+    color: #ffc107;
+}
+
+
+
+</style>
+
 <!-- Page Header Start -->
 <div class="container-fluid bg-secondary mb-5">
     <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
@@ -18,11 +44,6 @@
 
 <!-- Shop Detail Start -->
 <div class="container-fluid py-5">
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
     <div class="row px-xl-5">
         <div class="col-lg-5 pb-5">
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
@@ -54,15 +75,25 @@
                 <p class="font-weight-semi-bold">{{$product->category->name}}</p>
                 <div class="d-flex mb-3">
                     <div class="text-primary mr-2">
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star-half-alt"></small>
-                        <small class="far fa-star"></small>
+                    <div class="text-primary mb-2">
+                        @php
+                            $averageRating = $product->productReviews->avg('rate');
+                            $roundedAverageRating = round($averageRating); 
+                        @endphp
+
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $roundedAverageRating)
+                                <i class="fas fa-star"></i> 
+                            @else
+                                <i class="far fa-star"></i> 
+                            @endif
+                        @endfor
                     </div>
-                    <small class="pt-1">(50 Reviews)</small>
+                    </div>
+                    <small class="pt-1">({{ $product->productReviews->count() }} Reviews)</small>
+
                 </div>
-                <h3 class="font-weight-bold mb-4 text-danger">{{number_format($product->price)}}đ</h3>
+                <h3 class="font-weight-bold mb-4 text-danger">{{number_format($product->price)}}VND</h3>
                 <p class="mb-3">Product code: {{($product->product_code)}}</p>
                 <p class="mb-3">Products in stock: {{($product->productItems->sum('quantity'))}}</p>
                 @if($product->productItems->sum('quantity') > 0)
@@ -72,7 +103,7 @@
                     @foreach ($product->productItems->sortBy('size') as $item )
                     @if ($item->quantity > 0)
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input value="{{$item->size}}" onchange="getQuantity({{$item->size}},{{ $product->id}});"
+                        <input value="{{$item->size}}" onchange="getQuantity('{{$item->size}}','{{ $product->id}}');"
                             type="radio" class="custom-control-input" id="size-{{$item->size}}" name="size">
                         <label class="custom-control-label" for="size-{{$item->size}}">{{$item->size}}</label>
                     </div>
@@ -108,7 +139,8 @@
                 <h1 class="text-danger ">Sold out</h1>
                 @endif
                 <div class="d-flex pt-2">
-                    <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
+            
+                    <!-- <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
                     <div class="d-inline-flex">
                         <a class="text-dark px-2" href="">
                             <i class="fab fa-facebook-f"></i>
@@ -122,17 +154,27 @@
                         <a class="text-dark px-2" href="">
                             <i class="fab fa-pinterest"></i>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </form>
+            <div>
+            <form action="{{ route('wishlist.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <button type="submit" class="btn btn-outline-primary px-3"><i class="fa fa-heart mr-1"></i> Add to Wishlist</button>
+                            </form>
+                    
+            </div>
         </div>
     </div>
+   
     <div class="row px-xl-5">
         <div class="col">
             <div class="nav nav-tabs justify-content-center border-secondary mb-4">
                 <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Size guide</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                <!-- <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Size guide</a> -->
+                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews ({{ $product->productReviews->count() }})</a>
+
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-pane-1">
@@ -186,50 +228,68 @@
                 <div class="tab-pane fade" id="tab-pane-3">
                     <div class="row">
                         <div class="col-md-6">
-                            <h4 class="mb-4">1 review for "Colorful Stylish Shirt"</h4>
-                            <div class="media mb-4">
-                                <img src="/assets/frontend/img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1"
-                                    style="width: 45px;">
-                                <div class="media-body">
-                                    <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                                    <div class="text-primary mb-2">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <i class="far fa-star"></i>
+                            <h4 class="mb-4">Reviews</h4>
+                            
+                           
+                            @if ($product->productReviews && count($product->productReviews) > 0) 
+                                @forelse ($product->productReviews as $review)
+                                    <div class="media mb-4">
+                                        <img src="{{ $review->user->avatar ?? '/assets/frontend/img/user.jpg' }}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                        <div class="media-body">
+                                            <h6>{{ $review->user->name ?? 'Anonymous' }} <small>- {{ $review->created_at?->format('d M Y') ?? 'N/A' }}</small></h6>
+                                            <div class="text-primary mb-2">
+                                                <p>Rating: 
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= $review->rate)
+                                                            <i class="fas fa-star"></i> 
+                                                        @else
+                                                            <i class="far fa-star"></i> 
+                                                        @endif
+                                                    @endfor
+                                                </p>
+                                            </div>
+                                            <p>{{ $review->content }}</p>
+                                        </div>
                                     </div>
-                                    <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no
-                                        at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
-                                </div>
-                            </div>
+                                @empty
+                                    <p>There are no reviews yet.</p> 
+                                @endforelse
+                            @else
+                                <p>There are no reviews yet.</p> 
+                            @endif
                         </div>
+
+
                         <div class="col-md-6">
                             <h4 class="mb-4">Leave a review</h4>
-                            <small>Your email address will not be published. Required fields are marked *</small>
-                            <div class="d-flex my-3">
-                                <p class="mb-0 mr-2">Your Rating * :</p>
-                                <div class="text-primary">
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
+                            
+                            <form action="{{ route('reviews.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <div class="d-flex my-3">
+                                    <p class="mb-0 mr-2">Your Rating * :</p>
+                                    <div class="rate">
+                                        @for ($i = 5; $i >= 1; $i--)
+                                            <input type="radio" name="rate" id="rate-{{ $i }}" value="{{ $i }}" style="display: none;">
+                                            <label for="rate-{{ $i }}" class="star-label" data-value="{{ $i }}"><i class="far fa-star"></i></label>
+                                        @endfor
+                                    </div>
                                 </div>
-                            </div>
-                            <form>
+                                
                                 <div class="form-group">
                                     <label for="message">Your Review *</label>
-                                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                    <textarea id="message" name="message" cols="30" rows="5" class="form-control" required></textarea>
                                 </div>
-                                <div class="form-group">
+                                @guest
+                                <!-- <div class="form-group">
                                     <label for="name">Your Name *</label>
-                                    <input type="text" class="form-control" id="name">
+                                    <input type="text" name="name" class="form-control" id="name" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Your Email *</label>
-                                    <input type="email" class="form-control" id="email">
-                                </div>
+                                    <input type="email" name="email" class="form-control" id="email" required>
+                                </div> -->
+                                @endguest
                                 <div class="form-group mb-0">
                                     <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
                                 </div>
@@ -260,7 +320,7 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">{{$product->name}}</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>{{number_format($product->price)}}đ</h6>
+                                <h6>{{number_format($product->price)}}VND</h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-center bg-light border">
@@ -277,4 +337,24 @@
 </div>
 <!-- Products End -->
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.star-label').click(function() {
+                var ratingValue = $(this).data('value');
+                var starLabels = $('.star-label');
+                starLabels.each(function() {
+                    var currentValue = $(this).data('value');
+                    if (currentValue <= ratingValue) {
+                        $(this).children('i').removeClass('far').addClass('fas');
+                    } else {
+                        $(this).children('i').removeClass('fas').addClass('far');
+                    }
+        });
+    });
+});
+
+    </script>
 @endsection

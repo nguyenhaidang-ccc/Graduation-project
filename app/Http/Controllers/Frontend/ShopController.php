@@ -30,7 +30,7 @@ class ShopController extends Controller
 
         $products = $this->filter($products, $request);
         $products = $this->sortBy($products, $request);
-        $products = $products->paginate(9);
+        $products = $products->paginate(9)->appends($request->except('page'));
 
         return view('frontend.shop',compact('products','sizes'));
     }
@@ -42,7 +42,7 @@ class ShopController extends Controller
 
         $products = $this->filter($products, $request);
         $products = $this->sortBy($products, $request);
-        $products = $products->paginate(9);
+        $products = $products->paginate(9)->appends($request->except('page'));
 
         return view('frontend.shop',compact('products','sizes'));
     }
@@ -78,10 +78,10 @@ class ShopController extends Controller
     }
 
     protected function sortBy($products,Request $request){
-        $sortBy = $request->input('sort_by') ?? 'latest';
+        $sortBy = $request->input('sort_by') ?? 'newest';
         
         switch ($sortBy) {
-            case 'latest':
+            case 'newest':
                 $products = $products->orderByDesc('id');
                 break;
             case 'oldest':
@@ -107,7 +107,7 @@ class ShopController extends Controller
 
     public function product(Product $product){
         $relatedProducts = Product::where('category_id', $product->category_id)
-                                ->where('id', '<>', $product->id)
+                                ->where('id', '<>', $product->id) 
                                 ->limit(8)
                                 ->get();
                 
@@ -121,7 +121,7 @@ class ShopController extends Controller
 
         $products = $this->filter($products, $request);
         $products = $this->sortBy($products, $request);
-        $products = $products->paginate(9);
+        $products = $products->paginate(9)->appends($request->except('page'));
 
         return view('frontend.shop',compact('products','sizes'));
     }

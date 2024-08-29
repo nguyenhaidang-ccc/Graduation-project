@@ -89,6 +89,13 @@
                 </nav>
                 <div class="tab-content" >
                     <div class="tab-pane active show">
+                    <form action="{{ route('order-history') }}" method="GET">
+                        <div class="form-group">
+                            <label for="date_filter">Search:</label>
+                            <input type="date" class="form-control" id="date_filter" name="date_filter" value="{{ request('date_filter') }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
                         <table class="table" cellspacing="0">
                             <thead>
                                 <tr>
@@ -117,7 +124,7 @@
                                         @else
                                         <td class="text-center"><span class="status delivered">Delivered</span></td>
                                         @endif
-                                        <td class="text-center">{{ number_format($order->total_price) }}đ</td>
+                                        <td class="text-center">{{ number_format($order->total_price) }}VND</td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-end">
                                                 @if($order->status == 2)
@@ -126,7 +133,7 @@
                                                     <button type="submit" class="btn btn-secondary cancel mr-3">Cancel</button>
                                                 </form>
                                                 @elseif($order->status == 3)
-                                                <form action="{{route('order.cancel', $order)}}" method="POST">
+                                                <form action="{{route('order.return', $order)}}" method="POST">
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger return mr-3">Return</button>
                                                 </form>
@@ -148,7 +155,7 @@
                 
             </div>
             <div class="text-center">
-                {{ $orders->links() }}
+                {{ $orders->appends(['date_filter' => request('date_filter')])->links() }}
             </div>
         </div>
     </div>

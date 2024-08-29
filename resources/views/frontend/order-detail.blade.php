@@ -60,13 +60,13 @@
                                         <span>{{$product->pivot->name}} - {{$product->pivot->color}} x {{$product->pivot->quantity}}
                                             <p style="font-size: 13px">Size: {{$product->pivot->size}}</p>
                                         </span>
-                                        <p>{{number_format($product->pivot->price * $product->pivot->quantity)}}đ</p>
+                                        <p>{{number_format($product->pivot->price * $product->pivot->quantity)}}VND</p>
                                     </div>
                                 @endforeach
                             <hr class="mt-0">
                             <div class="d-flex justify-content-between mb-3 pt-1">
                                 <h6 class="font-weight-medium">Subtotal</h6>
-                                <h6 class="font-weight-medium">{{number_format($order->total_price)}}đ</h6>
+                                <h6 class="font-weight-medium">{{number_format($order->total_price)}}VND</h6>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <h6 class="font-weight-medium">Shipping</h6>
@@ -76,7 +76,7 @@
                         <div class="card-footer border-secondary bg-transparent">
                             <div class="d-flex justify-content-between mt-2">
                                 <h5 class="font-weight-bold">Total</h5>
-                                <h5 class="font-weight-bold">{{number_format($order->total_price)}}đ</h5>
+                                <h5 class="font-weight-bold">{{number_format($order->total_price)}}VND</h5>
                             </div>
                         </div>
                     </div>
@@ -87,6 +87,11 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>{{ $order->payment == 1 ? 'VNPay' : 'Cash on delivery (COD)' }}</label>
+                            </div>
+                            <div>
+                            @if ($order->status == 4) 
+                                <a href="{{ route('orderHistory.downloadInvoice', $order) }}" class="btn btn-primary mt-2">Download invoice</a>
+                            @endif
                             </div>
                         </div>
                     </div>

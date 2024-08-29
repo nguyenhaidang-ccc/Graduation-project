@@ -21,9 +21,18 @@ class CartController extends Controller
         $quantity = $validated['quantity'];
         $cart = session('cart', []);
 
+        $qty_product = $product->productItems()->where('size', $size)->first()->quantity;
+        if($qty_product < $quantity){
+            return redirect()->back()->with('error','Too much product left.');
+        };
+
         if(array_key_exists($product->id, $cart) 
-        && array_key_exists($size, $cart[$product->id])){
-            $cart[$product->id][$size]['quantity'] += $quantity;
+        && array_key_exists($size, $cart[$product->id])){  
+            $cart_qty = $cart[$product->id][$size]['quantity']; 
+            $cart[$product->id][$size]['quantity'] += $quantity; 
+            if($qty_product < $cart[$product->id][$size]['quantity']){
+                return redirect()->back()->with('error','You already have'  . $cart_qty . ' products in your cart. The selected quantity cannot be added to the cart as it would exceed the purchase limit.');
+            };
             
         }
         else{
@@ -39,7 +48,7 @@ class CartController extends Controller
         }
         session()->put('cart', $cart);
         $this->totalPrice();
-        return redirect()->back()->with('success', 'Product added to cart successfully.');
+        return redirect()->back()->with('success','Product added to cart successfully.');
     }
 
     public function increase($product_id, $size){ 
@@ -47,26 +56,41 @@ class CartController extends Controller
         if(isset($cart[$product_id][$size])){
             $cart[$product_id][$size]['quantity'] += 1;
         };
-        session()->put('cart', $cart);
-        $this->totalPrice();
-
-        return redirect()->back()->with('success', 'Update cart successfully.');
-    }
-
-    public function decrease($product_id, $size){ 
-        $cart = session('cart', []);
-        if(isset($cart[$product_id][$size])){
-            $cart[$product_id][$size]['quantity'] -= 1;
+        
+        $product = Product::findOrFail($product_id);
+        $qty_product = $product->productItems()->where('size', $size)->first()->quantity;
+        if($qty_product < $cart[$product_id][$size]['quantity']){
+            return redirect()->back()->with('error','Too much product left.');
         };
+
         session()->put('cart', $cart);
         $this->totalPrice();
 
         return redirect()->back()->with('success', 'Update cart successfully.');
     }
 
-    public function giam($product_id, $size){
-        return 'OK';
+    public function decrease($product_id, $size) {
+        $cart = session('cart', []);
+    
+        if (isset($cart[$product_id][$size])) {
+            
+            $cart[$product_id][$size]['quantity'] = max(0, $cart[$product_id][$size]['quantity'] - 1); 
+            
+
+            if ($cart[$product_id][$size]['quantity'] == 0) {
+                unset($cart[$product_id][$size]); 
+            }
+        }
+    
+        session()->put('cart', $cart);
+        $this->totalPrice();
+    
+        return redirect()->back()->with('success', 'Update cart successfully.');
     }
+    
+    
+    
+   
 
     public function delete($product_id, $size){
         $cart = session('cart');

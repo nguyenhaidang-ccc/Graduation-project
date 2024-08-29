@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\ProductItem;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class CheckoutController extends Controller
 {
-    static $vnp_TmnCode = "W6YEW49O"; //Mã website tại VNPAY
-    static $vnp_HashSecret = "WSBCHHFZBEGYEQNOQHVKLNCGZVHQTHMU"; //Chuỗi bí mật
+    static $vnp_TmnCode = "W6YEW49O"; 
+    static $vnp_HashSecret = "WSBCHHFZBEGYEQNOQHVKLNCGZVHQTHMU"; 
     static $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    static $vnp_Returnurl = "/checkout/vnPayCheck"; 
+    static $vnp_Returnurl = "/checkout/vnPayCheck";
 
     public function index(){
         return view('frontend.checkout');
@@ -30,9 +32,9 @@ class CheckoutController extends Controller
 
 
         $data['total_price'] = session('total_price');
-        $data['user_id'] = \Auth::id();
-        $data['status'] = 2; // trang thai Pending
-        /* Nếu thanh toán COD */
+        $data['user_id'] = Auth::id();
+        $data['status'] = 2; 
+        
         if($data['payment'] == 2){
             DB::beginTransaction();
             try {
@@ -40,7 +42,7 @@ class CheckoutController extends Controller
                 $this->createOrderDetail($order);
                 DB::commit();
 
-                return redirect()->route('order-history')->with('success', 'Thank you, your order has been successfully placed.');
+                return redirect()->route('order.success');
 
             } catch (\Throwable $e) {
                 DB::rollback();
@@ -48,7 +50,7 @@ class CheckoutController extends Controller
             }
         };
 
-        /* Thanh toán VNPay */
+       
         if($data['payment'] == 1){
             $order = Order::create($data);
             $data = [
@@ -58,8 +60,8 @@ class CheckoutController extends Controller
 
             ];
             $data_url = $this->vnpay_create_payment($data);
-            //chuyển hướng đến URL lấy được
-            \Redirect::to($data_url)->send();
+           
+            Redirect::to($data_url)->send();
         }
 
     }
@@ -93,12 +95,12 @@ class CheckoutController extends Controller
         error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-        $vnp_TxnRef = $data['vnp_TxnRef']; //Mã đơn hàng. 
+        $vnp_TxnRef = $data['vnp_TxnRef'];
         $vnp_OrderInfo = $data['vnp_OrderInfo'];
-        $vnp_OrderType = 200000; // Loại hàng hóa: Thời Trang 
+        $vnp_OrderType = 200000;
         $vnp_Amount = $data['vnp_Amount'] * 100;
-        $vnp_Locale = 'vn'; //Ngôn ngữ tiếng việt
-        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        $vnp_Locale = 'vn'; 
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR']; //127.0.0.1
 
         $inputData = array(
             "vnp_Version" => "2.1.0", 
@@ -115,7 +117,7 @@ class CheckoutController extends Controller
             "vnp_TxnRef" => $vnp_TxnRef,
         );
 
-        //thêm 'vnp_BankCode'
+       
         if (isset($vnp_BankCode) && $vnp_BankCode != "") {
             $inputData['vnp_BankCode'] = $vnp_BankCode;
         }
@@ -134,7 +136,7 @@ class CheckoutController extends Controller
             $query .= urlencode($key) . "=" . urlencode($value) . '&';
         }
 
-        //thêm 'vnp_SecureHash'
+       
         $vnp_Url = self::$vnp_Url . "?" . $query;
         if (isset(self::$vnp_HashSecret)) {
             $vnpSecureHash =   hash_hmac('sha512', $hashdata, self::$vnp_HashSecret);
@@ -152,21 +154,20 @@ class CheckoutController extends Controller
     }
 
     public function vnPayCheck(Request $request){
+      
+        $vnp_ResponseCode = $request->get('vnp_ResponseCode'); 
+        $vnp_TxnRef = $request->get('vnp_TxnRef'); 
 
-        //Lấy data từ URL (VNPay gửi về qua $vnp_Returnurl)
-        $vnp_ResponseCode = $request->get('vnp_ResponseCode'); //Mã phản hồi kết quả thanh toán
-        $vnp_TxnRef = $request->get('vnp_TxnRef'); // ID đơn  hàng
-
-        // Kiểm tra mã phản hồi
+       
         if($vnp_ResponseCode != null){
             $order = Order::find($vnp_TxnRef);
 
-            //00: TH thành công
+            
             if($vnp_ResponseCode == 00){
                 $this->createOrderDetail($order);
-                return redirect()->route('order-history')->with('success', 'Thank you, your order has been successfully placed.');
+                return redirect()->route('order.success');
 
-            }elseif($vnp_ResponseCode == 24){ //24: Hủy thanh toán
+            }elseif($vnp_ResponseCode == 24){ 
                 $order->delete();
                 return redirect()->route('checkout');
             }
@@ -176,14 +177,8 @@ class CheckoutController extends Controller
             }
         }
     }
+
+    public function notification(){
+        return view('frontend.notification');
+    }
 }
-
-
-
-// Thẻ demo để test VNPay
-
-// Ngân hàng: NCB
-// Số thẻ:  
-// Tên chủ thẻ:NGUYEN VAN A
-// Ngày phát hành:07/15
-// Mật khẩu OTP:123456

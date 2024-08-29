@@ -11,9 +11,9 @@
                 </div>
                 <div>
                     Order
-                    <div class="page-title-subheading">
+                    <!-- <div class="page-title-subheading">
                         View, create, update, delete and manage.
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -84,7 +84,7 @@
                                         @else
                                         <td class="text-center"><span class="status delivered">Delivered</span></td>
                                         @endif
-                                    <td class="text-center">{{number_format($order->total_price)}}đ</td>
+                                    <td class="text-center">{{number_format($order->total_price)}}VND</td>
                                     <td class="justify-content-end d-flex">
                                         @if($order->status === 2)
                                             <form action="{{route('order.confirm', $order)}}" method="POST">

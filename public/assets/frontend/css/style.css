@@ -9729,7 +9729,7 @@ input[type="number"] {
 }
 
 .blog-details-inner .blog-large-pic img {
-	min-width: 100%;
+	width: 100%;
 }
 
 .blog-details-inner .blog-detail-desc {

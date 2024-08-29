@@ -129,6 +129,111 @@
                                             <i class="metismenu-icon"></i>Post
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+
+                                        <h2 class="report-title">Monthly report </h2>
+                                        <form action="{{ route('admin.downloadMonthlyReport') }}" method="GET">
+                                            <div class="form-group">
+                                                <label for="month">Month:</label>
+                                                <select name="month" id="month" class="form-control">
+                                                    @for ($i = 1; $i <= 12; $i++)
+                                                        <option value="{{ $i }}" {{ $i == date('m') ? 'selected' : '' }}>Month {{ $i }}</option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="year">Year:</label>
+                                                <select name="year" id="year" class="form-control">
+                                                    @for ($i = 2024; $i <= date('Y'); $i++) 
+                                                        <option value="{{ $i }}" {{ $i == date('Y') ? 'selected' : '' }}>Year {{ $i }}</option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Download</button>
+                                        </form>
+                                        <style>
+.nav-item {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    max-width: 400px;
+}
+
+.report-title {
+    font-size: 1.25rem; /* Kích thước chữ nhỏ hơn */
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.Btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100px;
+  height: 40px;
+  border: none;
+  padding: 0px 20px;
+  background-color: rgb(168, 38, 255);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px rgb(140, 32, 212);
+  transition-duration: .3s;
+}
+
+.svg {
+  width: 13px;
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  fill: white;
+  transition-duration: .3s;
+}
+
+.Btn:hover {
+  color: transparent;
+}
+
+.Btn:hover svg {
+  right: 43%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  transition-duration: .3s;
+}
+
+.Btn:active {
+  transform: translate(3px , 3px);
+  transition-duration: .3s;
+  box-shadow: 2px 2px 0px rgb(140, 32, 212);
+}
+</style>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

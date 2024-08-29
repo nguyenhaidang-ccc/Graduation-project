@@ -100,7 +100,7 @@
                                 <div class="ml-4">
                                     <label>Sort by :</label>
                                     <select name="sort_by" onchange="this.form.submit()">
-                                        <option {{request('sort_by') == 'latest' ? 'selected' : '' }} value="lastest">Latest</option>
+                                        <option {{request('sort_by') == 'latest' ? 'selected' : '' }} value="lastest">Newest</option>
                                         <option {{request('sort_by') == 'oldest' ? 'selected' : '' }} value="oldest">Oldest</option>
                                         <option {{request('sort_by') == 'name-ascending' ? 'selected' : '' }} value="name-ascending">Name A -> Z</option>
                                         <option {{request('sort_by') == 'name-desending' ? 'selected' : '' }} value="name-desending">Name Z -> A </option>
@@ -132,7 +132,7 @@
                                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                                     <h6 class="text-truncate mb-3">{{$product->name}} - {{$product->color}}</h6>
                                     <div class="d-flex justify-content-center">
-                                        <h6 class="text-danger font-weight-bold">{{number_format($product->price)}}đ</h6>
+                                        <h6 class="text-danger font-weight-bold">{{number_format($product->price)}}VND</h6>
                                     </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-center bg-light border">
@@ -144,7 +144,7 @@
                         <div class="col-12 pb-1">
                             <nav aria-label="Page navigation">
                               <ul class="pagination justify-content-center mb-3">
-                                {{$products->links()}}
+                              {{ $products->appends(request()->query())->links() }}
                               </ul>
                             </nav>
                         </div>

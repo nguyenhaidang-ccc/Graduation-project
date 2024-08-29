@@ -14,6 +14,7 @@
                         <div class="page-title-subheading">
                             Statistics of products, orders, customers, order rate and store revenue.
                         </div>
+                        
                     </div>
                 </div>
 
@@ -50,7 +51,7 @@
             </div>
             <div class="card">
                 <div>
-                    <div class="numbers">{{ number_format($data['total_income']) }}đ</div>
+                    <div class="numbers">{{ number_format($data['total_income']) }}</div>
                     <div class="cardName">Earning</div>
                 </div>
                 <div class="iconBx">
@@ -119,7 +120,6 @@
         const status = Object.keys(pieChartData);
         const total_orders = Object.values(pieChartData);
 
-        console.log(pieChart);
         new Chart(document.querySelector('#pieChart'), {
             type: 'pie',
             data: {

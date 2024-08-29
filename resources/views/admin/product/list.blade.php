@@ -93,7 +93,7 @@
                                             </div>
                                         </td>
                                         <td class="text-center">{{$product->color}}</td>
-                                        <td class="text-center">{{number_format($product->price)}}đ</td>
+                                        <td class="text-center">{{number_format($product->price)}}VND</td>
                                         <td class="text-center">{{$product->productItems->sum('quantity')}}</td>
                                         <td class="text-center">
                                             @if ($product->featured === 1)
@@ -165,7 +165,7 @@
                                     </p>
                                 </div>
                                 <div>
-                                    {{ $products->links() }}
+                                {{ $products->appends(request()->query())->links() }}
                                 </div>
                             </div>
                         </nav>

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>E Shopper</title>
+    <title>Sports Store</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="Free HTML Templates" name="keywords" />
     <meta content="Free HTML Templates" name="description" />
@@ -28,7 +28,7 @@
 
 <body>
     <!-- Topbar Start -->
-    <div class="container-fluid">
+    <!-- <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
             <div class="col-lg-6 d-none d-lg-block">
                 <div class="d-inline-flex align-items-center">
@@ -58,12 +58,12 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="text-decoration-none">
                     <h1 class="m-0 display-5 font-weight-semi-bold">
-                        <span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper
+                        <img src="{{asset('assets/frontend/img/logo-black.png')}}" alt="" height="40">
                     </h1>
                 </a>
             </div>
@@ -80,6 +80,9 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
+                <a href="{{route('wishlist')}}" class="btn border"> 
+                    <i class="fas fa-heart text-primary"></i> 
+                </a>
                 <a href="{{route('profile')}}" class="btn border">
                     <i class="fas fa-user text-primary"></i>
                 </a>
@@ -113,7 +116,9 @@
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                        <h1 class="m-0 display-5 font-weight-semi-bold">
+                            <img src="{{asset('assets/frontend/img/logo-black.png')}}" alt="" height="40">
+                        </h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
@@ -130,9 +135,9 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <a href="{{route('contact')}}" class="nav-item nav-link {{ request()->segment(1) == 'contact' ? 'active' : '' }}">Contact</a>
+                            <!-- <a href="{{route('contact')}}" class="nav-item nav-link {{ request()->segment(1) == 'contact' ? 'active' : '' }}">Contact</a> -->
                             <a href="{{route('blog')}}" class="nav-item nav-link {{ request()->segment(1) == 'blog' ? 'active' : '' }}">Blog</a>
-                            <a href="{{route('order-history')}}" class="nav-item nav-link {{ request()->segment(1) == 'order-history' ? 'active' : '' }}">Order Placed</a>
+                            <a href="{{route('order-history')}}" class="nav-item nav-link {{ request()->segment(1) == 'order-history' ? 'active' : '' }}">My Self</a>
                         </div>
                         @if(Auth::guard('web')->check())
                             <div class="d-flex align-items-center">
@@ -166,13 +171,11 @@
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
                 <a href="" class="text-decoration-none">
                     <h1 class="mb-4 display-5 font-weight-semi-bold">
-                        <span class="text-primary font-weight-bold border border-white px-3 mr-1">E</span>Shopper
+                        <img src="{{asset('assets/frontend/img/logo-black.png')}}" alt="" height="40">
                     </h1>
                 </a>
                 <p>
-                    Dolore erat dolor sit lorem vero amet. Sed sit lorem
-                    magna, ipsum no sit erat lorem et magna ipsum dolore
-                    amet erat.
+                Connect with the ball, control the game.
                 </p>
                 <p class="mb-2">
                     <i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA
@@ -192,17 +195,17 @@
                             Quick Links
                         </h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our
+                            <a class="text-dark mb-2" href="{{route('home')}}"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="{{route('shop')}}"><i class="fa fa-angle-right mr-2"></i>Our
                                 Shop</a>
-                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop
+                            <a class="text-dark mb-2" href="{{route('shop')}}"><i class="fa fa-angle-right mr-2"></i>Shop
                                 Detail</a>
-                            <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping
+                            <a class="text-dark mb-2" href="{{route('cart')}}"><i class="fa fa-angle-right mr-2"></i>Shopping
                                 Cart</a>
-                            <a class="text-dark mb-2" href="checkout.html"><i
-                                    class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="{{route('contact')}}"><i class="fa fa-angle-right mr-2"></i>Contact
-                                Us</a>
+                            <!-- <a class="text-dark mb-2" href="checkout.html"><i
+                                    class="fa fa-angle-right mr-2"></i>Checkout</a> -->
+                            <!-- <a class="text-dark" href=""><i class="fa fa-angle-right mr-2"></i>Contact
+                                Us</a> -->
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
@@ -210,36 +213,33 @@
                             Quick Links
                         </h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our
+                            <a class="text-dark mb-2" href="{{route('home')}}"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="{{route('shop')}}"><i class="fa fa-angle-right mr-2"></i>Our
                                 Shop</a>
-                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop
+                            <a class="text-dark mb-2" href="{{route('shop')}}"><i class="fa fa-angle-right mr-2"></i>Shop
                                 Detail</a>
-                            <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping
+                            <a class="text-dark mb-2" href="{{route('cart')}}"><i class="fa fa-angle-right mr-2"></i>Shopping
                                 Cart</a>
-                            <a class="text-dark mb-2" href="checkout.html"><i
-                                    class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact
-                                Us</a>
+                            <!-- <a class="text-dark mb-2" href="checkout.html"><i
+                                    class="fa fa-angle-right mr-2"></i>Checkout</a> -->
+                            <!-- <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact
+                                Us</a> -->
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4">
                             Newsletter
                         </h5>
-                        <form action="">
+                        <form action="{{ route('subscribe') }}" method="POST">
+                            @csrf
                             <div class="form-group">
-                                <input type="text" class="form-control border-0 py-4" placeholder="Your Name"
-                                    required="required" />
+                                <input type="text" class="form-control border-0 py-4" placeholder="Your Name" name="name" required="required" />
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control border-0 py-4" placeholder="Your Email"
-                                    required="required" />
+                                <input type="email" class="form-control border-0 py-4" placeholder="Your Email" name="email" required="required" />
                             </div>
                             <div>
-                                <button class="btn btn-primary btn-block border-0 py-3" type="submit">
-                                    Subscribe Now
-                                </button>
+                                <button class="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
                             </div>
                         </form>
                     </div>
@@ -250,7 +250,7 @@
             <div class="col-md-6 px-xl-0">
                 <p class="mb-md-0 text-center text-md-left text-dark">
                     &copy;
-                    <a class="text-dark font-weight-semi-bold" href="#">E Shopper</a>. All Rights Reserved.
+                    <a class="text-dark font-weight-semi-bold" href="#">Sports Store</a>. All Rights Reserved.
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">

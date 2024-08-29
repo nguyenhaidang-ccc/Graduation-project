@@ -41,12 +41,20 @@
                         </div>
                         <div class="blog-share">
                             <span>Share:</span>
+                            
                             <div class="social-links">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#" onclick="document.getElementById('shareForm').submit();">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+
+                            <form id="shareForm" action="{{ route('share.facebook') }}" method="POST" style="display: none;">
+                                @csrf
+                                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                            </form>
+                                <!-- <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fab fa-google-plus-g"></i></a>
                                 <a href="#"><i class="fab fa-instagram"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
+                                <a href="#"><i class="fab fa-youtube"></i></a> -->
                             </div>
                         </div>
                     </div>

@@ -10,29 +10,25 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {   
         $keyword = $request->input('search');
 
-        $products = Product::when($keyword, function($query, $keyword){
-                $query->where('name', 'like', '%'.$keyword.'%');
+        $products = Product::when($keyword, function($query, $keyword){                                                                             //Nếu $keyword có giá trị , thì hàm callback  sẽ được thực hiện.
+                $query->where('name', 'like', '%'.$keyword.'%');                                                                                        //Thêm một điều kiện vào truy vấn để lọc ra các sản phẩm có tên chứa $keyword.
             })
-            ->orderByDesc('id')
-            ->paginate(5);
+            ->orderByDesc('id')->paginate(5)->appends($request->except('page'));
         return view('admin.product.list', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {   
         $categories = Category::all();
@@ -40,18 +36,16 @@ class ProductController extends Controller
         return view('admin.product.create', compact('categories','brands'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+ 
     public function store(StoreProductRequest $request)
     {
         $data = $request->validated();
         $sizes = $data['sizes'];
         $quantities = $data['quantities'];
         $arrimages = $data['images'];
-        $productItems = array_map(function($size, $quantity) {
-            return ['size' => $size, 'quantity' => $quantity];
-        }, $sizes, $quantities);
+        $productItems = array_map(function($size, $quantity) {                                                                                          //Hàm callback ở đây tạo ra một mảng mới $productItems 
+            return ['size' => $size, 'quantity' => $quantity];                                                                                              //chứa các cặp key-value ['size' => $size, 'quantity' => $quantity] 
+        }, $sizes, $quantities);                                                                                                                            //cho từng cặp size và quantity tương ứng.
         DB::beginTransaction();
         try {
             unset($data['sizes']);
@@ -72,6 +66,10 @@ class ProductController extends Controller
         DB::beginTransaction();
         try {
             foreach($productItems as $item){
+                if ($item['quantity'] <= 0) {
+                    throw ValidationException::withMessages([
+                        'quantity' => 'The quantity must be greater than zero.',
+                    ]);}
                 ProductItem::updateOrCreate(
                     [
                         'product_id' => $product->id,
@@ -140,30 +138,25 @@ class ProductController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
+  
     public function show(Product $product)
     {
         return view('admin.product.show', compact('product'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Product $product)
     {
         $categories = Category::all();
         $brands = Brand::all();
-        $product = Product::with(['productItems' => function ($query) {
-            $query->where('quantity', '>', 0);
-        }])->find($product->id);
-        return view('admin.product.edit', compact('product','categories','brands'));
+
+        
+        $product->load(['productItems']);
+
+        return view('admin.product.edit', compact('product', 'categories', 'brands'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdateProductRequest $request, Product $product)
     {
         $data = $request->validated();
@@ -189,9 +182,7 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Product $product)
     {
         $product->delete();
